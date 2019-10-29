@@ -1,2 +1,3 @@
 # Kartu Maslahah Backend
-TEst test
+
+REST API Using (Express Framework, PostgreSQL DB, sequelize ORM)

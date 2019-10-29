@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "6biStudio",
+    "database": "kartu_maslahah",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "6biStudio",
+    "database": "kartu_maslahah",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "6biStudio",
+    "database": "kartu_maslahah",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
