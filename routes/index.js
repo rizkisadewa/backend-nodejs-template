@@ -11,7 +11,7 @@ export default (app) => {
     // API routes Auth
     app.post('/api/auth/sign-in', AuthController.validate('sign-in'), AuthController.signIn);
     app.get('/api/auth/verify', AuthController.verifyJwt, function (req, res) {
-        res.send(req.user);
+        res.json({ status: 'success', message: 'Token Valid', data: req.user });
     });
 
     // API routes Core
