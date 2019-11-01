@@ -45,5 +45,5 @@ export default (app) => {
     app.post('/api/uploads', AuthController.verifyJwt, upload.single('image'), UploadController.singleImage);
 
     // API routes Master
-    app.get('/api/master', MasterController.validate(), MasterController.get);
+    app.post('/api/master', MasterController.validate(), MasterController.get);
 };
