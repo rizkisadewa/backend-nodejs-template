@@ -3,6 +3,7 @@ import CoreController from '../controllers/core';
 import CabangController from '../controllers/cabang';
 import UserTypeController from '../controllers/user-type';
 import UserController from '../controllers/user';
+import NasabahController from '../controllers/nasabah';
 import UploadController from '../controllers/upload';
 import upload from '../utils/upload';
 import MasterController from '../controllers/master';
@@ -40,6 +41,15 @@ export default (app) => {
     app.get('/api/user/:id', UserController.getUser);
     app.put('/api/user/:id', UserController.updateUser);
     app.delete('/api/user/:id', UserController.deleteUser);
+
+    // API routes Nasabah
+    app.get('/api/nasabah', NasabahController.getAllNasabahs);
+    app.post('/api/nasabah', NasabahController.addNasabah);
+    app.get('/api/nasabah/primary-data', AuthController.verifyJwt, NasabahController.getPrimaryData);
+    app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
+    app.get('/api/nasabah/:id', NasabahController.getNasabah);
+    app.put('/api/nasabah/:id', NasabahController.updateNasabah);
+    app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
 
     // API routes file process
     app.post('/api/uploads', AuthController.verifyJwt, upload.single('image'), UploadController.singleImage);

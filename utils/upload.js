@@ -4,12 +4,12 @@ import multer from 'multer';
 
 const local = multer.diskStorage({
     destination: function (req, file, cb) {
-        const pathToFile = path.join(path.resolve(), 'public/uploads');
+        const pathToFile = path.join(path.resolve(), `public/uploads/${file.fieldname}`);
         fs.mkdirsSync(pathToFile);
         cb(null, pathToFile);
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now());
+        cb(null, file.originalname);
     }
 });
 const imageFilter = function (req, file, cb) {
