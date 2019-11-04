@@ -9,6 +9,8 @@ import {
     validationResult
 } from 'express-validator';
 import moment from 'moment';
+import path from 'path';
+import base64Img from 'base64-img';
 
 const resUtil = new ResponseUtil();
 
@@ -188,6 +190,23 @@ class NasabahController {
             resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
 
             resUtil.setSuccess(200, 'Response', primaryData);
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
+    static async getSecondaryData(req, res) {
+        try {
+            const {
+                id
+            } = req.query;
+            let result = {};
+            result.primary_data = await NasabahService.getPrimaryData(id);
+            result.primary_data.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.primary_data.foto_ktp}`));
+            resUtil.setSuccess(200, 'API Secondary Data berhasil ditampilkan', result);
 
             return resUtil.send(res);
         } catch (error) {
