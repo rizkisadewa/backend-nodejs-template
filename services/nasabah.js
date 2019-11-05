@@ -164,7 +164,8 @@ class NasabahService {
             const temp_size = await database.sequelize.query(query , {
                 type: database.Sequelize.QueryTypes.SELECT
             });
-            primaryData.max_page = temp_size.length;
+            
+            primaryData.max_page = Math.ceil(temp_size.length/max_page);
 
             return primaryData;
 
