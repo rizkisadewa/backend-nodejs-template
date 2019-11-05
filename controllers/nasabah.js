@@ -231,5 +231,30 @@ class NasabahController {
             }
         }
     }
+
+    static async getAllNasabahByStatus(req, res) {
+        try {
+
+            const {
+                page,
+                status
+            } = req.query;
+
+            const allNasabah = await NasabahService.getNasabahByStatus(status,page);
+
+            if (allNasabah.max_page > 0) {
+                resUtil.setSuccess(200, 'Data Nasabah berhasil ditampilkan', allNasabah);
+            } else {
+                resUtil.setSuccess(200, 'Data Nasabah kosong');
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
+
 }
 export default NasabahController;

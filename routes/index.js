@@ -44,6 +44,7 @@ export default (app) => {
 
     // API routes Nasabah
     app.get('/api/nasabah', NasabahController.getAllNasabahs);
+    app.get('/api/nasabah/nasabah-by-status', NasabahController.getAllNasabahByStatus);
     app.post('/api/nasabah', NasabahController.addNasabah);
     app.get('/api/nasabah/primary-data', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/secondary-data', AuthController.verifyJwt, NasabahController.getSecondaryData);
@@ -51,6 +52,7 @@ export default (app) => {
     app.get('/api/nasabah/:id', NasabahController.getNasabah);
     app.put('/api/nasabah/:id', NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
+    
 
     // API routes file process
     app.post('/api/uploads', AuthController.verifyJwt, upload.single('image'), UploadController.singleImage);
