@@ -242,10 +242,10 @@ class NasabahController {
 
             const allNasabah = await NasabahService.getNasabahByStatus(status,page);
 
-            if (allNasabah.data.length > 0) {
+            if (allNasabah.rows.length > 0) {
                 resUtil.setSuccess(200, 'Data Nasabah berhasil ditampilkan', allNasabah);
             } else {
-                resUtil.setSuccess(200, 'Data Nasabah kosong');
+                resUtil.setSuccess(200, 'Data Nasabah kosong', allNasabah);
             }
 
             return resUtil.send(res);

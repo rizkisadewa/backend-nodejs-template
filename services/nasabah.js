@@ -147,16 +147,35 @@ class NasabahService {
                     nsb.secondary_data_keterangan = 'approved' 
                 `;
             } 
+            else if(status == "approved")
+            {
+                sql_condition += ` 
+                    WHERE nsb.status_primary_data = 'approved' OR 
+                    nsb.status_secondary_data = 'approved' 
+                `;
+            } 
+            else if(status == "rejected")
+            {
+                sql_condition += ` 
+                    WHERE nsb.status_primary_data = 'rejected' OR 
+                    nsb.status_secondary_data = 'rejected' 
+                `;
+            } 
             
             query = query + sql_condition;
 
             //pagination
-            const limitation =  ` offset '${offset}' limit '${max_page}' `;
+            let limitation =  ``;
+
+            if(page > 0)
+            {
+                limitation = ` offset '${offset}' limit '${max_page}' `;
+            }
 
             const primaryData = {};
             
             //get data with limitation
-            primaryData.data = await database.sequelize.query(query+limitation , {
+            primaryData.rows = await database.sequelize.query(query+limitation , {
                 type: database.Sequelize.QueryTypes.SELECT
             });
 
