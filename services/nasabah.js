@@ -57,8 +57,6 @@ class NasabahService {
                 nama_nsb,
                 nama_singkat,
                 tgl_lahir,
-                knm.kode as kode_negara,
-                knm.negara as warganegara,
                 handphone,
                 jtm.keterangan as jenis_tabungan,
                 no_kartu,
@@ -66,8 +64,6 @@ class NasabahService {
                 foto_ktp
             FROM
                 nasabah nsb
-            LEFT JOIN
-                kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
             LEFT JOIN
                 jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
             WHERE

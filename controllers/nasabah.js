@@ -5,6 +5,9 @@ import {
     emptyStringsToNull
 } from '../utils/utilities';
 import {
+    master
+} from '../config/master';
+import {
     body,
     validationResult
 } from 'express-validator';
@@ -134,27 +137,12 @@ class NasabahController {
     static async getPrimaryData(req, res) {
         try {
             let result = {};
+
             result.user = req.user;
-            const tableWN = {
-                table_id: "kode_negara_mstr",
-                value_id: "concat(id_negara, ':', kode)",
-                text_id: "negara",
-                param_id: "",
-                param_value: "",
-                sort_id: "",
-                sort_value: ""
-            };
-            result.warganegara = await MasterService.get(tableWN);
-            const tableJT = {
-                table_id: "jenis_tabungan_mstr",
-                value_id: "id_tabungan",
-                text_id: "keterangan",
-                param_id: "",
-                param_value: "",
-                sort_id: "",
-                sort_value: ""
-            };
-            result.jenis_tabungan = await MasterService.get(tableJT);
+            result.box = {};
+            result.box.kode_negara = await MasterService.get(master.kode_negara());
+            result.box.jenis_tabungan = await MasterService.get(master.jenis_tabungan());
+
             resUtil.setSuccess(200, 'API Primary Data berhasil ditampilkan', result);
 
             return resUtil.send(res);
@@ -177,14 +165,14 @@ class NasabahController {
                 throw errorFile;
             }
 
-            const primaryData = req.body;
+            let primaryData = req.body;
             const files = req.files;
 
-            const kodeNegara = primaryData.warganegara.split(':');
-            primaryData.warganegara = kodeNegara[0];
-            primaryData.handphone = kodeNegara[1] + parseInt(primaryData.handphone).toString();
+            primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
             primaryData.tgl_lahir = moment(primaryData.tgl_lahir).format('YYYY-MM-DD');
             primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+
+            delete primaryData.kode_negara;
 
             const createdNasabah = await NasabahService.addNasabah(primaryData);
             resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
@@ -204,9 +192,61 @@ class NasabahController {
                 id
             } = req.query;
             let result = {};
+
+            // Data Primary
             result.primary_data = await NasabahService.getPrimaryData(id);
             result.primary_data.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.primary_data.foto_ktp}`));
+
+            // Master Selectbox
+            result.box = {};
+            result.box.kd_identitas = await MasterService.get(master.kd_identitas());
+            result.box.jns_kelamin = await MasterService.get(master.jns_kelamin());
+            result.box.kode_agama = await MasterService.get(master.kode_agama());
+            result.box.pendidikan = await MasterService.get(master.pendidikan());
+            result.box.sts_nikah = await MasterService.get(master.sts_nikah());
+            result.box.sifat_dana = await MasterService.get(master.sifat_dana());
+            result.box.penghasilan = await MasterService.get(master.penghasilan());
+            result.box.sumdana = await MasterService.get(master.sumdana());
+            result.box.pekerjaan = await MasterService.get(master.pekerjaan());
+            result.box.jabatan = await MasterService.get(master.jabatan());
+            result.box.usaha = await MasterService.get(master.usaha());
+            result.box.hubank = await MasterService.get(master.hubank());
+            result.box.tujuan = await MasterService.get(master.tujuan());
+            result.box.kewarganegaraan_sts = await MasterService.get(master.kewarganegaraan_sts());
+            result.box.provinsi = await MasterService.get(master.provinsi());
+            result.box.kota = await MasterService.get(master.kota());
+            result.box.rata_akt_daily = await MasterService.get(master.rata_akt_daily());
+
             resUtil.setSuccess(200, 'API Secondary Data berhasil ditampilkan', result);
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
+    static async saveSecondaryData(req, res) {
+        try {
+            const {
+                id
+            } = req.params;
+            const errors = validationResult(req);
+
+
+            if (!Number(id)) {
+                resUtil.setError(400, 'id Nasabah harus bernilai angka');
+                return resUtil.send(res);
+            }
+
+            if (!errors.isEmpty()) {
+                throw errors.array()[0].msg;
+            }
+
+            let secondaryData = req.body;
+
+            const updatedNasabah = await NasabahService.updateNasabah(id, secondaryData);
+            resUtil.setSuccess(201, 'Nasabah berhasil diperbarui', updatedNasabah);
 
             return resUtil.send(res);
         } catch (error) {
@@ -222,12 +262,48 @@ class NasabahController {
                     body('nama_nsb').not().isEmpty().withMessage('Nama Nasabah harus diisi'),
                     body('nama_singkat').not().isEmpty().withMessage('Nama Singkat harus diisi'),
                     body('tgl_lahir').not().isEmpty().withMessage('Tanggal Lahir harus diisi'),
-                    body('warganegara').not().isEmpty().withMessage('Warga Negara harus diisi'),
+                    body('kode_negara').not().isEmpty().withMessage('Kode Negara harus diisi'),
                     body('handphone').not().isEmpty().withMessage('Nomor Telepon harus diisi'),
                     body('jenis_tabungan').not().isEmpty().withMessage('Jenis Tabungan harus diisi'),
                     body('no_kartu').not().isEmpty().withMessage('Nomor Kartu harus diisi'),
                     body('setoran_awal').not().isEmpty().withMessage('Setoran Awal harus diisi')
-                ]
+                ];
+            }
+            case 'secondary-data': {
+                return [
+                    body('kd_identitas').not().isEmpty().withMessage('Kode Identitas harus diisi'),
+                    body('no_identitas').not().isEmpty().withMessage('Nomor Kartu Identitas harus diisi'),
+                    body('alamat_ktp').not().isEmpty().withMessage('Alamat (KTP) harus diisi'),
+                    body('rt').not().isEmpty().withMessage('RT harus diisi'),
+                    body('rw').not().isEmpty().withMessage('RW harus diisi'),
+                    body('kelurahan').not().isEmpty().withMessage('Kelurahan harus diisi'),
+                    body('kecamatan').not().isEmpty().withMessage('Kecamatan harus diisi'),
+                    body('kota').not().isEmpty().withMessage('Kota harus diisi'),
+                    body('kode_pos').not().isEmpty().withMessage('Kode Pos harus diisi'),
+                    body('alamat_domisili').not().isEmpty().withMessage('Alamat (Domisili) harus diisi'),
+                    body('jns_kelamin').not().isEmpty().withMessage('Jenis Kelamin harus diisi'),
+                    body('kode_agama').not().isEmpty().withMessage('Agama harus diisi'),
+                    body('tempat_lahir').not().isEmpty().withMessage('Tempat Lahir harus diisi'),
+                    body('kewarganegaraan_sts').not().isEmpty().withMessage('Kewarganegaraan Status harus diisi'),
+                    body('no_identitas_exp').not().isEmpty().withMessage('Masa Berlaku Identitas harus diisi'),
+                    body('nama_ibu').not().isEmpty().withMessage('Nama Ibu harus diisi'),
+                    body('provinsi').not().isEmpty().withMessage('Dati I harus diisi'),
+                    body('kode_area').not().isEmpty().withMessage('Kode Area harus diisi'),
+                    body('telp_rumah').not().isEmpty().withMessage('Nomor Telpon Rumah harus diisi'),
+                    body('pendidikan').not().isEmpty().withMessage('Status Gelar harus diisi'),
+                    body('sts_nikah').not().isEmpty().withMessage('Status Menikah harus diisi'),
+                    body('sifat_dana').not().isEmpty().withMessage('Sifat Dana harus diisi'),
+                    body('penghasilan').not().isEmpty().withMessage('Penghasilan harus diisi'),
+                    body('sumdana').not().isEmpty().withMessage('Sumber Dana harus diisi'),
+                    body('pekerjaan').not().isEmpty().withMessage('Pekerjaan harus diisi'),
+                    body('jabatan').not().isEmpty().withMessage('Jabatan harus diisi'),
+                    body('usaha').not().isEmpty().withMessage('Bidang Usaha harus diisi'),
+                    body('nama_prs').not().isEmpty().withMessage('Nama Perusahaan harus diisi'),
+                    body('alamat_prs').not().isEmpty().withMessage('Alamat Perusahaan harus diisi'),
+                    body('rata_akt_daily').not().isEmpty().withMessage('Aktivitas Transaksi harus diisi'),
+                    body('hubank').not().isEmpty().withMessage('Hubungan Bank harus diisi'),
+                    body('tujuan').not().isEmpty().withMessage('Tujuan harus diisi')
+                ];
             }
         }
     }
@@ -240,7 +316,7 @@ class NasabahController {
                 status
             } = req.query;
 
-            const allNasabah = await NasabahService.getNasabahByStatus(status,page);
+            const allNasabah = await NasabahService.getNasabahByStatus(status, page);
 
             if (allNasabah.rows.length > 0) {
                 resUtil.setSuccess(200, 'Data Nasabah berhasil ditampilkan', allNasabah);

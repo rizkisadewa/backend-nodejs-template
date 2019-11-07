@@ -44,11 +44,13 @@ export default (app) => {
 
     // API routes Nasabah
     app.get('/api/nasabah', NasabahController.getAllNasabahs);
-    app.get('/api/nasabah/nasabah-by-status', NasabahController.getAllNasabahByStatus);
     app.post('/api/nasabah', NasabahController.addNasabah);
+    app.get('/api/nasabah/nasabah-by-status', NasabahController.getAllNasabahByStatus);
     app.get('/api/nasabah/primary-data', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/secondary-data', AuthController.verifyJwt, NasabahController.getSecondaryData);
     app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
+    app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
+    app.get('/api/nasabah/disduk-data', AuthController.verifyJwt, NasabahController.getNasabah)
     app.get('/api/nasabah/:id', NasabahController.getNasabah);
     app.put('/api/nasabah/:id', NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
