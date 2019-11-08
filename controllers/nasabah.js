@@ -215,7 +215,6 @@ class NasabahController {
             result.box.kewarganegaraan_sts = await MasterService.get(master.kewarganegaraan_sts());
             result.box.provinsi = await MasterService.get(master.provinsi());
             result.box.kota = await MasterService.get(master.kota());
-            result.box.rata_akt_daily = await MasterService.get(master.rata_akt_daily());
 
             resUtil.setSuccess(200, 'API Secondary Data berhasil ditampilkan', result);
 

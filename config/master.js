@@ -16,8 +16,7 @@ export const master = {
     tujuan,
     kewarganegaraan_sts,
     provinsi,
-    kota,
-    rata_akt_daily
+    kota
 };
 
 function kode_negara() {
@@ -229,18 +228,6 @@ function kota() {
         table_id: "kota_mstr",
         value_id: "cityid",
         text_id: "citynm",
-        param_id: "",
-        param_value: "",
-        sort_id: "",
-        sort_value: ""
-    };
-}
-
-function rata_akt_daily() {
-    return {
-        table_id: "rata_aktivitas_mstr",
-        value_id: "id_pengeluaran",
-        text_id: "keterangan",
         param_id: "",
         param_value: "",
         sort_id: "",
