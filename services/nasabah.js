@@ -120,11 +120,11 @@ class NasabahService {
 
             if(status == "update")
             {
-                sql_condition += ` WHERE nsb.status_primary_data = 'pending' `;
+                sql_condition += ` WHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data IS NULL `;
             } 
             else if(status == "pending")
             {
-                sql_condition += ` WHERE nsb.status_secondary_data = 'pending' `;
+                sql_condition += ` WHERE nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' `;
             } 
             else if(status == "req_new_data")
             {
