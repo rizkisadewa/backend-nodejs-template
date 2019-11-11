@@ -124,7 +124,8 @@ class NasabahService {
             } 
             else if(status == "pending")
             {
-                sql_condition += ` WHERE nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' `;
+                sql_condition += ` WHERE nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' OR
+                                     nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected' `;
             } 
             else if(status == "req_new_data")
             {
