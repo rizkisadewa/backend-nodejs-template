@@ -330,6 +330,138 @@ class NasabahController {
         }
     }
 
+    static async approveReqNewData(req, res) {
+        const alteredNasabah = emptyStringsToNull(req.body);
+
+        const {
+            id
+        } = req.params;
+
+        if (!Number(id)) {
+            resUtil.setError(400, 'id Nasabah harus bernilai angka');
+            return resUtil.send(res);
+        }
+
+        try {
+            const updateNasabah = await NasabahService.updateNasabah(id, alteredNasabah);
+
+            if (!updateNasabah) {
+                resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+            } else {
+                resUtil.setSuccess(200, 'Nasabah berhasil diubah', updateNasabah);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            if (error.errors) {
+                resUtil.setError(400, error.errors[0].message);
+            } else {
+                resUtil.setError(400, error);
+            }
+            return resUtil.send(res);
+        }
+    }
+
+
+    static async rejectReqNewData(req, res) {
+        const alteredNasabah = emptyStringsToNull(req.body);
+
+        const {
+            id
+        } = req.params;
+
+        if (!Number(id)) {
+            resUtil.setError(400, 'id Nasabah harus bernilai angka');
+            return resUtil.send(res);
+        }
+
+        try {
+            const updateNasabah = await NasabahService.updateNasabah(id, alteredNasabah);
+
+            if (!updateNasabah) {
+                resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+            } else {
+                resUtil.setSuccess(200, 'Nasabah berhasil diubah', updateNasabah);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            if (error.errors) {
+                resUtil.setError(400, error.errors[0].message);
+            } else {
+                resUtil.setError(400, error);
+            }
+            return resUtil.send(res);
+        }
+    }
+
+
+    static async approveReqUpdateData(req, res) {
+        const alteredNasabah = emptyStringsToNull(req.body);
+
+        const {
+            id
+        } = req.params;
+
+        if (!Number(id)) {
+            resUtil.setError(400, 'id Nasabah harus bernilai angka');
+            return resUtil.send(res);
+        }
+
+        try {
+            const updateNasabah = await NasabahService.updateNasabah(id, alteredNasabah);
+
+            if (!updateNasabah) {
+                resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+            } else {
+                resUtil.setSuccess(200, 'Nasabah berhasil diubah', updateNasabah);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            if (error.errors) {
+                resUtil.setError(400, error.errors[0].message);
+            } else {
+                resUtil.setError(400, error);
+            }
+            return resUtil.send(res);
+        }
+    }
+
+
+    static async rejectReqUpdateData(req, res) {
+        const alteredNasabah = emptyStringsToNull(req.body);
+
+        const {
+            id
+        } = req.params;
+
+        if (!Number(id)) {
+            resUtil.setError(400, 'id Nasabah harus bernilai angka');
+            return resUtil.send(res);
+        }
+
+        try {
+            const updateNasabah = await NasabahService.updateNasabah(id, alteredNasabah);
+
+            if (!updateNasabah) {
+                resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+            } else {
+                resUtil.setSuccess(200, 'Nasabah berhasil diubah', updateNasabah);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            if (error.errors) {
+                resUtil.setError(400, error.errors[0].message);
+            } else {
+                resUtil.setError(400, error);
+            }
+            return resUtil.send(res);
+        }
+    }
+
+
 
 }
 export default NasabahController;
