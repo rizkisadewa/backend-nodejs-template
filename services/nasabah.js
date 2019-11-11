@@ -191,7 +191,7 @@ class NasabahService {
     }
 
     // Laporan Pembukaan Rekening
-    static async getAllNasabahLapPembRek(status, page){
+    static async getNasabahLapPembRek(status, page){
         try{
           let query = `
           SELECT
@@ -249,7 +249,7 @@ class NasabahService {
             throw error;
         }
     }
-    
+
 }
 
 export default NasabahService;

@@ -318,7 +318,7 @@ class NasabahController {
                 status
             } = req.query;
 
-            const allNasabahLapPembRek = await NasabahService.getAllNasabahLapPembRek(status, page);
+            const allNasabahLapPembRek = await NasabahService.getNasabahLapPembRek(status, page);
 
             if(allNasabahLapPembRek.length > 0){
               resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah berhasil ditampilkan', allNasabahLapPembRek);
