@@ -58,7 +58,9 @@ class NasabahService {
                 nama_singkat,
                 tgl_lahir,
                 handphone,
-                jtm.keterangan as jenis_tabungan,
+                SUBSTRING(handphone, 1, 2) as kode_negara,
+                jenis_tabungan,
+                jtm.keterangan as jenis_tabungan_text,
                 no_kartu,
                 setoran_awal,
                 foto_ktp
@@ -185,6 +187,22 @@ class NasabahService {
 
             return primaryData;
 
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async sendRequestData(id) {
+        try {
+            const query = `
+            UPDATE nasabah SET (status_primary_data, status_secondary_data) = (CASE WHEN status_primary_data = 'pending' THEN 'waiting_update' ELSE status_primary_data END, CASE WHEN status_secondary_data = 'pending' THEN 'waiting_update' ELSE status_secondary_data END)
+            WHERE id = '${id}'
+            `;
+            const result = await database.sequelize.query(query, {
+                type: database.Sequelize.QueryTypes.SELECT
+            });
+
+            return result;
         } catch (error) {
             throw error;
         }

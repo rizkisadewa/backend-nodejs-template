@@ -138,7 +138,22 @@ class NasabahController {
         try {
             let result = {};
 
-            result.user = req.user;
+            const {
+                id
+            } = req.params;
+
+            if (id) {
+                result.nasabah = await NasabahService.getPrimaryData(id);
+                if (Object.keys(result.nasabah).length > 0)
+                    result.nasabah.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`));
+                else {
+                    resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+                    return resUtil.send(res);
+                }
+            } else {
+                result.user = req.user;
+            }
+
             result.box = {};
             result.box.kode_negara = await MasterService.get(master.kode_negara());
             result.box.jenis_tabungan = await MasterService.get(master.jenis_tabungan());
@@ -168,16 +183,26 @@ class NasabahController {
             let primaryData = req.body;
             const files = req.files;
 
-            primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
             primaryData.tgl_lahir = moment(primaryData.tgl_lahir).format('YYYY-MM-DD');
-            primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
 
-            delete primaryData.kode_negara;
+            const {
+                id
+            } = req.params;
 
-            const createdNasabah = await NasabahService.addNasabah(primaryData);
-            resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
-
-            resUtil.setSuccess(200, 'Response', primaryData);
+            if (id) {
+                delete primaryData.foto_ktp;
+                if (files.length > 0)
+                    primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+                delete primaryData.kode_negara;
+                const updatedNasabah = await NasabahService.updateNasabah(id, primaryData);
+                resUtil.setSuccess(201, 'Nasabah berhasil perbaharui', updatedNasabah);
+            } else {
+                primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
+                primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+                delete primaryData.kode_negara;
+                const createdNasabah = await NasabahService.addNasabah(primaryData);
+                resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
+            }
 
             return resUtil.send(res);
         } catch (error) {
@@ -243,9 +268,57 @@ class NasabahController {
             }
 
             let secondaryData = req.body;
+            secondaryData.status_secondary_data = 'pending';
 
             const updatedNasabah = await NasabahService.updateNasabah(id, secondaryData);
             resUtil.setSuccess(201, 'Nasabah berhasil diperbarui', updatedNasabah);
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
+    static async sendRequestData(req, res) {
+        try {
+            const {
+                id
+            } = req.params;
+
+            if (!Number(id)) {
+                resUtil.setError(400, 'id Nasabah harus bernilai angka');
+                return resUtil.send(res);
+            }
+
+            const result = await NasabahService.sendRequestData(id);
+            resUtil.setSuccess(201, 'Nasabah berhasil diperbarui', result);
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
+    static async getDisdukData(req, res) {
+        const {
+            nik
+        } = req.params;
+
+        if (!Number(nik)) {
+            resUtil.setError(400, 'Nomor Kartu Identitas harus bernilai angka');
+            return resUtil.send(res);
+        }
+
+        try {
+            // const nasabah = await 
+
+            // if (!nasabah) {
+            //     resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+            // } else {
+            //     resUtil.setSuccess(200, 'Nasabah berhasil ditampilkan', nasabah);
+            // }
 
             return resUtil.send(res);
         } catch (error) {

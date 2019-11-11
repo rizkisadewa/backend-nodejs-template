@@ -1,5 +1,7 @@
 'use strict';
 
+import moment from "moment";
+
 export default (sequelize, DataTypes) => {
   const nasabah = sequelize.define('nasabah', {
     kd_cab: {
@@ -22,10 +24,6 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.DATEONLY
     },
-    warganegara: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
     handphone: {
       allowNull: true,
       type: DataTypes.STRING
@@ -45,6 +43,25 @@ export default (sequelize, DataTypes) => {
     foto_ktp: {
       allowNull: true,
       type: DataTypes.STRING
+    },
+    date: {
+      allowNull: true,
+      type: DataTypes.DATEONLY,
+      defaultValue: function() {
+        return moment().format('YYYY-MM-DD');
+      }
+    },
+    time1: {
+      allowNull: true,
+      type: DataTypes.TIME,
+      defaultValue: function() {
+        return moment().format('HH:mm:ss');
+      }
+    },
+    status_primary_data: {
+      allowNull: true,
+      type: DataTypes.STRING,
+      defaultValue: 'pending'
     }
   }, {
     freezeTableName: true,
