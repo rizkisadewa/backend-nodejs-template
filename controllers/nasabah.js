@@ -18,6 +18,7 @@ import base64Img from 'base64-img';
 const resUtil = new ResponseUtil();
 
 class NasabahController {
+
     static async getAllNasabahs(req, res) {
         try {
             const allNasabahs = await NasabahService.getAllNasabahs();
@@ -307,7 +308,33 @@ class NasabahController {
         }
     }
 
+    // Laporan Pembukaan Rekening
+    static async getAllNasabahLapPembRek(req, res){
+
+        try{
+
+            const {
+                page,
+                status
+            } = req.query;
+
+            const allNasabahLapPembRek = await NasabahService.getAllNasabahLapPembRek(status, page);
+
+            if(allNasabahLapPembRek.length > 0){
+              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah berhasil ditampilkan', allNasabahLapPembRek);
+            } else {
+              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah kosong', allNasabahLapPembRek);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
     static async getAllNasabahByStatus(req, res) {
+
         try {
 
             const {
