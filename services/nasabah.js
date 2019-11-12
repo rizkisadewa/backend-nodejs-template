@@ -105,13 +105,21 @@ class NasabahService {
                 nsb.*,
                 knm.kode as kode_negara,
                 knm.negara as warganegara,
-                jtm.keterangan as jenis_tabungan
+                jtm.keterangan as jenis_tabungan,
+                cbg.kode as kode_kantor_cabang,
+                cbg.nama as kantor_cabang,
+                usr.nama as nama_marketing,
+                usr.username as kode_fo
             FROM
                 nasabah nsb
             LEFT JOIN
                 kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
             LEFT JOIN
-                jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan `;
+                jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
+            FULL JOIN
+                cabang cbg ON cbg.kode = nsb.kd_cab
+            FULL JOIN
+                public.user usr ON usr.kode = nsb.kd_agen`;
 
             let sql_condition = ``;
             const max_page = 10;
@@ -138,11 +146,8 @@ class NasabahService {
             else if(status == "completed")
             {
                 sql_condition += `
-                    WHERE nsb.status_primary_data = 'approved' AND
-                    nsb.primary_data_keterangan = 'approved' AND
-                    nsb.status_secondary_data = 'approved' AND
-                    nsb.secondary_data_keterangan = 'approved'
-                `;
+
+r                `;
             }
             else if(status == "approved")
             {
@@ -156,6 +161,11 @@ class NasabahService {
                 sql_condition += `
                     WHERE nsb.status_primary_data = 'rejected' OR
                     nsb.status_secondary_data = 'rejected'
+                `;
+            } else if(status == "pembukaan_rekening"){
+                sql_condition += `
+                    WHERE nsb.status_primary_data = 'approved' AND
+                    nsb.status_secondary_data = 'approved'
                 `;
             }
 
@@ -190,66 +200,7 @@ class NasabahService {
         }
     }
 
-    // Laporan Pembukaan Rekening
-    static async getNasabahLapPembRek(status, page){
-        try{
-          let query = `
-          SELECT
-              nsb.*,
-              cbg.nama as kantor_cabang,
-              cbg.kode as kode_kantor_cabang,
-              usr.nama as nama_marketing,
-              usr.username as kode_fo
 
-          FROM
-              nasabah nsb
-          LEFT JOIN
-              cabang cbg ON cbg.kode = nsb.kd_cab
-          LEFT JOIN
-              public.user usr ON usr.kode = nsb.kd_agen`;
-
-          let sql_condition = ``;
-          const max_page = 10;
-          const offset = ((page - 1) * max_page);
-
-          if(status == "approved")
-          {
-              sql_condition += `
-                  WHERE nsb.status_primary_data = 'approved' OR
-                  nsb.status_secondary_data = 'approved'
-              `;
-          }
-
-          query = query + sql_condition;
-
-          //pagination
-          let limitation =  ``;
-
-          if(page > 0)
-          {
-              limitation = ` offset '${offset}' limit '${max_page}' `;
-          }
-
-          const laporanPembRekData = {};
-
-          //get data with limitation
-          laporanPembRekData.rows = await database.sequelize.query(query+limitation , {
-              type: database.Sequelize.QueryTypes.SELECT
-          });
-
-          //get max page
-          const temp_size = await database.sequelize.query(query , {
-              type: database.Sequelize.QueryTypes.SELECT
-          });
-
-          laporanPembRekData.max_page = Math.ceil(temp_size.length/max_page);
-
-          return laporanPembRekData;
-
-        } catch (error) {
-            throw error;
-        }
-    }
 
 }
 
