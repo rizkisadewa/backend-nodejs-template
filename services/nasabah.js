@@ -208,6 +208,7 @@ class NasabahService {
           LEFT JOIN
               public.user usr ON usr.kode = nsb.kd_agen`;
 
+          let sql_condition = ``;
           const max_page = 10;
           const offset = ((page - 1) * max_page);
 
