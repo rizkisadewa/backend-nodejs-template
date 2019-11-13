@@ -58,7 +58,8 @@ export default (app) => {
     app.get('/api/nasabah/:id', NasabahController.getNasabah);
     app.put('/api/nasabah/:id', NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
-    
+    app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
+
 
     // API routes file process
     app.post('/api/uploads', AuthController.verifyJwt, upload.single('image'), UploadController.singleImage);
