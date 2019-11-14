@@ -313,7 +313,7 @@ class NasabahController {
         }
 
         try {
-            // const nasabah = await 
+            // const nasabah = await
 
             // if (!nasabah) {
             //     resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
@@ -381,30 +381,6 @@ class NasabahController {
         }
     }
 
-    // Laporan Pembukaan Rekening
-    static async getAllNasabahLapPembRek(req, res){
-
-        try{
-
-            const {
-                page,
-                status
-            } = req.query;
-
-            const allNasabahLapPembRek = await NasabahService.getNasabahLapPembRek(status, page);
-
-            if(allNasabahLapPembRek.length > 0){
-              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah berhasil ditampilkan', allNasabahLapPembRek);
-            } else {
-              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah kosong', allNasabahLapPembRek);
-            }
-
-            return resUtil.send(res);
-        } catch (error) {
-            resUtil.setError(400, error);
-            return resUtil.send(res);
-        }
-    }
 
     static async getAllNasabahByStatus(req, res) {
 
@@ -560,6 +536,63 @@ class NasabahController {
             return resUtil.send(res);
         }
     }
+
+    // Laporan Pembukaan Rekening
+    static async getAllNasabahLapPembRek(req, res){
+
+        try{
+
+            const {
+                page,
+                status
+            } = req.query;
+
+            const allNasabahLapPembRek = {};
+
+            if(allNasabahLapPembRek.length > 0){
+              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah berhasil ditampilkan', allNasabahLapPembRek);
+            } else {
+              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah kosong', allNasabahLapPembRek);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
+    // Report Pembukaan Rekening
+    static async getReportPembukaanRekeningData(req, res){
+      try {
+
+          let result = {};
+
+          const {
+            tgl_awal,
+            tgl_akhir
+          } = req.params;
+
+          if(tgl_awal && tgl_akhir){
+            result.nasabah = await NasabahService.getReportPembukaanRekeningData(tgl_awal, tgl_akhir);
+            if(Object.keys(result.nasabah).length <= 0){
+              resUtil.setError(404, `Report dari tanggal ${tgl_awal} s.d. ${tgl_akhir} tidak ditemukan`)
+              return resUtil.send(res);
+            }
+          } else {
+            result.user = req.user
+          }
+
+          resUtil.setSuccess(200, 'API Report Pembukaan Rekening Export View berhasil ditampilkan', result);
+
+          return resUtil.send(res);
+
+      } catch(error) {
+        resUtil.setError(400, error);
+        return resUtil.send(res);
+      }
+    }
+
 
 
 

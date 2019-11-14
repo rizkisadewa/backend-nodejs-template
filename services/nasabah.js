@@ -220,6 +220,46 @@ class NasabahService {
             throw error;
         }
     }
+
+    static async getReportPembukaanRekeningData(start_date, finish_date){
+      try{
+        const query = `
+        SELECT
+            nsb.*,
+            knm.kode as kode_negara,
+            knm.negara as warganegara,
+            jtm.keterangan as jenis_tabungan,
+            cbg.kode as kode_kantor_cabang,
+            cbg.nama as kantor_cabang,
+            usr.nama as nama_marketing,
+            usr.username as kode_fo
+        FROM
+            nasabah nsb
+        LEFT JOIN
+            kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
+        LEFT JOIN
+            jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
+        FULL JOIN
+            cabang cbg ON cbg.kode = nsb.kd_cab
+        FULL JOIN
+            public.user usr ON usr.kode = nsb.kd_agen
+
+        WHERE nsb.status_primary_data = 'approved' AND
+        nsb.status_secondary_data = 'approved' AND
+        nsb.date >= '${start_date}' AND
+        nsb.date <= '${finish_date}'
+        `;
+
+        const resultReport = await database.sequelize.query(query, {
+            type: database.Sequelize.QueryTypes.SELECT
+        });
+
+        return resultReport;
+
+      } catch (error) {
+          throw error;
+      }
+    }
 }
 
 export default NasabahService;

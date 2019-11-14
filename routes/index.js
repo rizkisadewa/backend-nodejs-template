@@ -59,6 +59,7 @@ export default (app) => {
     app.put('/api/nasabah/:id', NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
     app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
+    app.get('/api/nasabah/laporan-pembukaan-rekening/export-preview-page/:tgl_awal/:tgl_akhir', NasabahController.getReportPembukaanRekeningData); // Laporan Pembukaan Rekening Export Preview
 
 
     // API routes file process
