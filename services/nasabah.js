@@ -148,8 +148,11 @@ class NasabahService {
             else if(status == "completed")
             {
                 sql_condition += `
-
-r                `;
+                WHERE nsb.status_primary_data = 'approved' AND
+                    nsb.primary_data_keterangan = 'approved' AND
+                    nsb.status_secondary_data = 'approved' AND
+                    nsb.secondary_data_keterangan = 'approved'
+                `;
             }
             else if(status == "approved")
             {
