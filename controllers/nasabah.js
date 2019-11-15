@@ -181,7 +181,7 @@ class NasabahController {
                 throw errorFile;
             }
 
-            let primaryData = req.body;
+            let primaryData = emptyStringsToNull(req.body);
             const files = req.files;
 
             primaryData.tgl_lahir = moment(primaryData.tgl_lahir).format('YYYY-MM-DD');
@@ -238,7 +238,7 @@ class NasabahController {
             result.box.usaha = await MasterService.get(master.usaha());
             result.box.hubank = await MasterService.get(master.hubank());
             result.box.tujuan = await MasterService.get(master.tujuan());
-            result.box.kewarganegaraan_sts = await MasterService.get(master.kewarganegaraan_sts());
+            result.box.warganegara = await MasterService.get(master.warganegara());
             result.box.provinsi = await MasterService.get(master.provinsi());
             result.box.kota = await MasterService.get(master.kota());
 
@@ -268,7 +268,7 @@ class NasabahController {
                 throw errors.array()[0].msg;
             }
 
-            let secondaryData = req.body;
+            let secondaryData = emptyStringsToNull(req.body);
             secondaryData.status_secondary_data = 'pending';
 
             const updatedNasabah = await NasabahService.updateNasabah(id, secondaryData);
@@ -357,7 +357,7 @@ class NasabahController {
                     body('jns_kelamin').not().isEmpty().withMessage('Jenis Kelamin harus diisi'),
                     body('kode_agama').not().isEmpty().withMessage('Agama harus diisi'),
                     body('tempat_lahir').not().isEmpty().withMessage('Tempat Lahir harus diisi'),
-                    body('kewarganegaraan_sts').not().isEmpty().withMessage('Kewarganegaraan Status harus diisi'),
+                    body('warganegara').not().isEmpty().withMessage('Kewarganegaraan Status harus diisi'),
                     body('no_identitas_exp').not().isEmpty().withMessage('Masa Berlaku Identitas harus diisi'),
                     body('nama_ibu').not().isEmpty().withMessage('Nama Ibu harus diisi'),
                     body('provinsi').not().isEmpty().withMessage('Dati I harus diisi'),

@@ -14,7 +14,7 @@ export const master = {
     usaha,
     hubank,
     tujuan,
-    kewarganegaraan_sts,
+    warganegara,
     provinsi,
     kota
 };
@@ -199,9 +199,9 @@ function tujuan() {
     };
 }
 
-function kewarganegaraan_sts() {
+function warganegara() {
     return {
-        table_id: "kewarganegaraan_sts_mstr",
+        table_id: "warganegara_mstr",
         value_id: "id",
         text_id: "keterangan",
         param_id: "",
