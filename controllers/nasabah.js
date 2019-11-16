@@ -144,7 +144,7 @@ class NasabahController {
             } = req.params;
 
             if (id) {
-                result.nasabah = await NasabahService.getPrimaryData(id);
+                result.nasabah = await NasabahService.getNasabahCustom(id);
                 if (Object.keys(result.nasabah).length > 0)
                     result.nasabah.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`));
                 else {
@@ -220,8 +220,8 @@ class NasabahController {
             let result = {};
 
             // Data Primary
-            result.primary_data = await NasabahService.getPrimaryData(id);
-            result.primary_data.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.primary_data.foto_ktp}`));
+            result.nasabah = await NasabahService.getNasabahCustom(id);
+            result.nasabah.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`));
 
             // Master Selectbox
             result.box = {};

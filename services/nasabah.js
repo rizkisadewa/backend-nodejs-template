@@ -48,22 +48,13 @@ class NasabahService {
         }
     }
 
-    static async getPrimaryData(id) {
+    static async getNasabahCustom(id) {
         try {
             const query = `
             SELECT
-                kd_cab,
-                kd_agen,
-                nama_nsb,
-                nama_singkat,
-                tgl_lahir,
-                handphone,
+                *,
                 SUBSTRING(handphone, 1, 2) as kode_negara,
-                jenis_tabungan,
-                jtm.keterangan as jenis_tabungan_text,
-                no_kartu,
-                setoran_awal,
-                foto_ktp
+                jtm.keterangan as jenis_tabungan_text
             FROM
                 nasabah nsb
             LEFT JOIN
@@ -105,9 +96,6 @@ class NasabahService {
             let query = `
             SELECT
                 nsb.*,
-                knm.kode as kode_negara,
-                knm.negara as warganegara,
-                jtm.keterangan as jenis_tabungan,
                 cbg.kode as kode_kantor_cabang,
                 cbg.nama as kantor_cabang,
                 usr.nama as nama_marketing,
@@ -115,12 +103,8 @@ class NasabahService {
             FROM
                 nasabah nsb
             LEFT JOIN
-                kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
-            LEFT JOIN
-                jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
-            FULL JOIN
                 cabang cbg ON cbg.kode = nsb.kd_cab
-            FULL JOIN
+            LEFT JOIN
                 public.user usr ON usr.kode = nsb.kd_agen`;
 
             let sql_condition = ``;
@@ -208,7 +192,7 @@ class NasabahService {
     static async sendRequestData(id) {
         try {
             const query = `
-            UPDATE nasabah SET (status_primary_data, status_secondary_data) = (CASE WHEN status_primary_data = 'pending' THEN 'waiting_update' ELSE status_primary_data END, CASE WHEN status_secondary_data = 'pending' THEN 'waiting_update' ELSE status_secondary_data END)
+            UPDATE nasabah SET (status_primary_data, status_secondary_data) = (CASE WHEN status_primary_data = 'pending' OR status_primary_data = 'rejected' THEN 'waiting_update' ELSE status_primary_data END, CASE WHEN status_secondary_data = 'pending' OR status_secondary_data = 'rejected' THEN 'waiting_update' ELSE status_secondary_data END)
             WHERE id = '${id}'
             `;
             const result = await database.sequelize.query(query, {

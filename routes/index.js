@@ -49,7 +49,6 @@ export default (app) => {
     app.get('/api/nasabah/primary-data', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/primary-data/:id', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/secondary-data', AuthController.verifyJwt, NasabahController.getSecondaryData);
-    app.get('/api/nasabah/secondary-data/:id', AuthController.verifyJwt, NasabahController.getSecondaryData);
     app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
