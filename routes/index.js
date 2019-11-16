@@ -55,6 +55,12 @@ export default (app) => {
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
     app.post('/api/nasabah/send-request-data/:id', AuthController.verifyJwt, NasabahController.sendRequestData);
     app.get('/api/nasabah/disduk-data/:nik', AuthController.verifyJwt, NasabahController.getDisdukData);
+    app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
+    app.post('/api/nasabah/approve-primary/:id', NasabahController.approveReqNewData);
+    app.post('/api/nasabah/reject-primary/:id', NasabahController.rejectReqNewData);
+    app.post('/api/nasabah/approve-secondary/:id', NasabahController.approveReqUpdateData);
+    app.post('/api/nasabah/reject-secondary/:id', NasabahController.rejectReqUpdateData);
+
     app.get('/api/nasabah/:id', NasabahController.getNasabah);
     app.put('/api/nasabah/:id', NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
