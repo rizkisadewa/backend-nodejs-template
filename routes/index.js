@@ -7,6 +7,7 @@ import NasabahController from '../controllers/nasabah';
 import UploadController from '../controllers/upload';
 import upload from '../utils/upload';
 import MasterController from '../controllers/master';
+import DisdukController from '../controllers/disduk';
 
 export default (app) => {
     // API routes Auth
@@ -53,7 +54,7 @@ export default (app) => {
     app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
     app.post('/api/nasabah/send-request-data/:id', AuthController.verifyJwt, NasabahController.sendRequestData);
-    app.get('/api/nasabah/disduk-data/:nik', AuthController.verifyJwt, NasabahController.getDisdukData);
+    app.get('/api/nasabah/disduk-data/:nik', AuthController.verifyJwt, DisdukController.callNIK);
     app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
     app.post('/api/nasabah/approve-primary/:id', NasabahController.approveReqNewData);
     app.post('/api/nasabah/reject-primary/:id', NasabahController.rejectReqNewData);
