@@ -8,6 +8,7 @@ import UploadController from '../controllers/upload';
 import upload from '../utils/upload';
 import MasterController from '../controllers/master';
 import DisdukController from '../controllers/disduk';
+import SMSController from '../controllers/sms'
 
 export default (app) => {
     // API routes Auth
@@ -70,4 +71,8 @@ export default (app) => {
 
     // API routes Master
     app.post('/api/master', MasterController.validate(), MasterController.get);
+
+    // API routes SMS
+    app.post('/api/send-sms', SMSController.sendSMS);
+    
 };
