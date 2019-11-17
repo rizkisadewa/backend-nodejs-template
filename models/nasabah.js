@@ -47,14 +47,14 @@ export default (sequelize, DataTypes) => {
     date: {
       allowNull: true,
       type: DataTypes.DATEONLY,
-      defaultValue: function() {
+      defaultValue: function () {
         return moment().format('YYYY-MM-DD');
       }
     },
     time1: {
       allowNull: true,
       type: DataTypes.TIME,
-      defaultValue: function() {
+      defaultValue: function () {
         return moment().format('HH:mm:ss');
       }
     },
@@ -220,6 +220,14 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     secondary_data_keterangan: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    nocif: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    rek_bjbs: {
       allowNull: true,
       type: DataTypes.STRING
     }

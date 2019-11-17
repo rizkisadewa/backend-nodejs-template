@@ -54,11 +54,14 @@ class NasabahService {
             SELECT
                 *,
                 SUBSTRING(handphone, 1, 2) as kode_negara,
-                jtm.keterangan as jenis_tabungan_text
+                jtm.keterangan as jenis_tabungan_text,
+                pm.keterangan as pendidikan_text
             FROM
                 nasabah nsb
             LEFT JOIN
                 jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
+            LEFT JOIN
+                pendidikan_mstr pm ON pm.id_pendidikan = nsb.pendidikan
             WHERE
                 id = '${id}'
             `;
