@@ -3,24 +3,34 @@ import ResponseUtil from '../utils/response';
 import {
     emptyStringsToNull
 } from '../utils/utilities';
+import {
+    baseUrl,
+    channelId,
+    eventId,
+    serviceId
+} from '../config/sms';
 
 const resUtil = new ResponseUtil();
-const BASE_URL = 'http://172.31.250.90:8080/MaslahahJSONGateway/JSON?event_id=mdm.dev.10111701&service_id=100016&channel_id=1000019&';
-
 
 class SMSController {
-    
     static async sendSMS(req, res) {
-
         //{
         // message : xxx
         // nomor : xxx
         //}
         const smsBodyReq = emptyStringsToNull(req.body);
-        let messageEncode = encodeURIComponent(smsBodyReq.message);
+        const messageEncode = encodeURIComponent(smsBodyReq.message);
 
         try {
-            const response = await axios.get(BASE_URL + `message=${messageEncode}&msisdn=${smsBodyReq.nomor}`);
+            const response = await axios.get(baseUrl, {
+                params: {
+                    event_id: eventId,
+                    service_id: serviceId,
+                    channel_id: channelId,
+                    message: messageEncode,
+                    msisdn: smsBodyReq.nomor
+                }
+            });
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
@@ -42,9 +52,5 @@ class SMSController {
             console.log(error.config);
         }
     }
-
-    
 }
 export default SMSController;
-
-

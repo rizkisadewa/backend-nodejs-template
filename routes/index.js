@@ -17,11 +17,11 @@ export default (app) => {
         res.json({ status: 'success', message: 'Token Valid', data: req.user });
     });
 
+    // API routes Disduk
+    app.get('/api/disduk/call-nik', AuthController.verifyJwt, DisdukController.callNIK);
+
     // API routes Core
-    app.post('/api/core/get-cif-by-id', AuthController.verifyJwt, CoreController.getCIFById);
-    app.post('/api/core/get-cif-by-account', AuthController.verifyJwt, CoreController.getCIFByAccount);
-    app.post('/api/core/create-cif-perorangan', AuthController.verifyJwt, CoreController.createCIFPerorangan);
-    app.post('/api/core/create-cif-non-perorangan', AuthController.verifyJwt, CoreController.createCIFNonPerorangan);
+    app.get('/api/core/create-cif-perorangan', AuthController.verifyJwt, CoreController.createCIFPerorangan);
 
     // API routes Cabang
     app.get('/api/cabang', CabangController.getAllCabangs);
@@ -45,23 +45,26 @@ export default (app) => {
     app.delete('/api/user/:id', UserController.deleteUser);
 
     // API routes Nasabah
-    app.get('/api/nasabah', NasabahController.getAllNasabahs);
-    app.post('/api/nasabah', NasabahController.addNasabah);
-    app.get('/api/nasabah/nasabah-by-status', NasabahController.getAllNasabahByStatus);
+    // Custom routes get
     app.get('/api/nasabah/primary-data', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/primary-data/:id', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/secondary-data', AuthController.verifyJwt, NasabahController.getSecondaryData);
+    app.get('/api/nasabah/nasabah-by-status', NasabahController.getAllNasabahByStatus);
+    app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek);
+
+    // Custon routes post
     app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
     app.post('/api/nasabah/send-request-data/:id', AuthController.verifyJwt, NasabahController.sendRequestData);
-    app.get('/api/nasabah/disduk-data/:nik', AuthController.verifyJwt, DisdukController.callNIK);
-    app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
     app.post('/api/nasabah/approve-primary/:id', NasabahController.approveReqNewData);
     app.post('/api/nasabah/reject-primary/:id', NasabahController.rejectReqNewData);
     app.post('/api/nasabah/approve-secondary/:id', NasabahController.approveReqUpdateData);
     app.post('/api/nasabah/reject-secondary/:id', NasabahController.rejectReqUpdateData);
 
+    // Normal routes
+    app.get('/api/nasabah', NasabahController.getAllNasabahs);
+    app.post('/api/nasabah', NasabahController.addNasabah);
     app.get('/api/nasabah/:id', NasabahController.getNasabah);
     app.put('/api/nasabah/:id', NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);

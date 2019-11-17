@@ -105,7 +105,7 @@ class NasabahService {
             LEFT JOIN
                 cabang cbg ON cbg.kode = nsb.kd_cab
             LEFT JOIN
-                public.user usr ON usr.kode = nsb.kd_agen`;
+                "user" usr ON usr.kode = nsb.kd_agen`;
 
             let sql_condition = ``;
             const max_page = 10;

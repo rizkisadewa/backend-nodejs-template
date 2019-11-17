@@ -1,14 +1,20 @@
 import axios from 'axios';
 import ResponseUtil from '../utils/response';
+import {
+    userId,
+    password,
+    userIP,
+    nikUrl,
+    token
+} from '../config/disduk';
 
 const resUtil = new ResponseUtil();
-const BASE_URL = 'http://172.16.160.128:8000/dukcapil/get_json/BJB_SYARIAH/CALL_NIK';
 
 class DisdukController {
     static async callNIK(req, res) {
         const {
             nik
-        } = req.params;
+        } = req.query;
 
         if (!Number(nik)) {
             resUtil.setError(400, 'Nomor Kartu Identitas harus bernilai angka');
@@ -16,14 +22,14 @@ class DisdukController {
         }
 
         try {
-            const response = await axios.post(BASE_URL, {
-                "nik": nik,
-                "user_id": "1142324201907093INDRA",
-                "password": "YlDIixkL",
-                "IP_USER": "10.161.92.17"
+            const response = await axios.post(nikUrl, {
+                nik: nik,
+                user_id: userId,
+                password: password,
+                IP_USER: userIP
             }, {
                 headers: {
-                    Authorization: 'Bearer ZWBLgHvVwHluqegtjCQ',
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
