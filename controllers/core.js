@@ -213,7 +213,7 @@ class CoreController {
                 params: {
                     channelid: channel.v1,
                     userGtw: userGtw.v1,
-                    id: functionId.createCIF,
+                    id: functionId.updateCIF,
                     input: body
                 }
             });
