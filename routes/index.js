@@ -43,7 +43,7 @@ export default (app) => {
 
     // API routes User
     app.get('/api/user', UserController.getAllUsers);
-    app.post('/api/user', UserController.addUser);
+    app.post('/api/user', UserController.addUser, upload.any());
     app.get('/api/user/:id', UserController.getUser);
     app.put('/api/user/:id', UserController.updateUser);
     app.delete('/api/user/:id', UserController.deleteUser);
@@ -84,5 +84,5 @@ export default (app) => {
 
     // API routes SMS
     app.post('/api/send-sms', SMSController.sendSMS);
-    
+
 };
