@@ -59,12 +59,14 @@ class SMSController {
     }
 
     static async notifSO(req, res) {
-
-        const messageEncode = encodeURIComponent(templateSO);
         const {
             kode_cabang
         } = req.user;
+        const {
+            query
+        } = req;
         try {
+            const messageEncode = encodeURIComponent(templateSO);
             const nomorSO = await UserService.getNomorSO(kode_cabang);
             const response = await axios.get(baseUrl, {
                 params: {
