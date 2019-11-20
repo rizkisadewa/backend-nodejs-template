@@ -280,7 +280,7 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=2;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.sifat_dana};USERID=${user.username}`);
-            const response = await axios.get(`${coreUrl.v1.get}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
+            const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
             if (response.data.STATUS === 1) {
                 await NasabahService.updateNasabah(id, {
