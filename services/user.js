@@ -50,7 +50,7 @@ class UserService {
 
     static async getNomorSO(kode_cabang) {
         try {
-            const nomor = await database.user.findOne({
+            const user = await database.user.findOne({
                 attributes: ['no_tlp'],
                 where: {
                     kode_cabang: kode_cabang,
@@ -58,7 +58,7 @@ class UserService {
                 }
             });
 
-            return nomor;
+            return user.no_tlp;
         } catch (error) {
             throw error;
         }
