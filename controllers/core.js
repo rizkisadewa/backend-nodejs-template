@@ -114,7 +114,7 @@ class CoreController {
                 }
             });
 
-            if (response.data.statusId === 1) {
+            if(response.data.statusId === 1) {
                 await NasabahService.updateNasabah(id, {
                     nocif: response.data.result.CIFID
                 });
@@ -279,14 +279,14 @@ class CoreController {
         } = req;
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
-            // const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=021;USERID=${user.username}`);
-            const response = await axios.get('http://172.112.17.20:7070/Gateway/gateway/services/setDataExt?channelid=6&userGtw=GTW06&id=004&input=BRANCHID%3D001%3BCIFID%3D0000603987%3BAPPLID%3D02%3BPRODID%3D55%3BSVGTYPE%3D021%3BUSERID%3Dc0008');
+            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=021;USERID=${user.username}`);
+            const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
-            // if (response.data.STATUS === 1) {
-            //     await NasabahService.updateNasabah(id, {
-            //         rek_bjbs: response.data.ACCNBR
-            //     });
-            // }
+            if (response.data.STATUS === 1) {
+                await NasabahService.updateNasabah(id, {
+                    new_rek: response.data.ACCNBR
+                });
+            }
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
