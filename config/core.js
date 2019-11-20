@@ -9,13 +9,14 @@ export const channel = {
 };
 export const baseUrl = {
   v1: {
-    set: 'http://localhost:7070/Gateway/gateway/services/setDataExt',
-    get: 'http://localhost:7070/Gateway/gateway/services/getDataExt'
+    set: 'http://172.112.17.20:7070/Gateway/gateway/services/setDataExt',
+    get: 'http://172.112.17.20:7070/Gateway/gateway/services/getDataExt'
   },
   v2: 'http://172.112.17.20:7070/Gateway/service/v2/postData'
 };
 export const functionId = {
   createCIFPerorangan: '00103',
+  inquiryCIF: '001',
   createCIF: '002',
   updateCIF: '003',
   createTabungan: '004',
