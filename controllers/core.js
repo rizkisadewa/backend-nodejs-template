@@ -114,7 +114,7 @@ class CoreController {
                 }
             });
 
-            if(response.data.statusId === 1) {
+            if (response.data.statusId === 1) {
                 await NasabahService.updateNasabah(id, {
                     nocif: response.data.result.CIFID
                 });
@@ -280,7 +280,15 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=021;USERID=${user.username}`);
-            const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
+            const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`, {
+                timeout: 5000
+            }).then(res=> {
+                resUtil.setSuccess(res.status, res.statusText, res.data);
+                return resUtil.send(res);
+            }).catch(err => {
+                resUtil.setSuccess(err.code, err.message, err.stack);
+                return resUtil.send(res);
+            });
 
             if (response.data.STATUS === 1) {
                 await NasabahService.updateNasabah(id, {
@@ -289,7 +297,6 @@ class CoreController {
             }
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
-            // resUtil.setSuccess(200, 'OK', `${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
