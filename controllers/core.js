@@ -114,7 +114,14 @@ class CoreController {
                 }
             });
 
-            resUtil.setSuccess(response.status, response.statusText, response.data);
+            resUtil.setSuccess(response.status, {
+                authKey: auth,
+                reqId: functionId.createCIFPerorangan,
+                txDate: date.format('YYYYMMDD'),
+                txHour: date.format('HHmmss'),
+                userGtw: userGtw.v2,
+                channelId: channel.v2
+            }, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
