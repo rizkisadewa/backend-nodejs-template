@@ -32,7 +32,7 @@ class CoreController {
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
             const marketing = await UserService.getUserByKode(nasabah.kd_agen);
-            const date = moment().subtract(5, 'm');
+            const date = moment().subtract(10, 'm');
             const auth = hmacsha1(userGtw.v2, functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss'));
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
@@ -114,7 +114,14 @@ class CoreController {
                 }
             });
 
-            resUtil.setSuccess(response.status, response.statusText, response.data);
+            resUtil.setSuccess(response.status, {
+                authKey: auth,
+                reqId: functionId.createCIFPerorangan,
+                txDate: date.format('YYYYMMDD'),
+                txHour: date.format('HHmmss'),
+                userGtw: userGtw.v2,
+                channelId: channel.v2
+            }, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
