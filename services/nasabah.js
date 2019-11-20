@@ -50,14 +50,14 @@ class NasabahService {
 
     static async getNomor(id) {
         try {
-            const nomor = await database.nasabah.findOne({
+            const nasabah = await database.nasabah.findOne({
                 attributes: ['handphone'],
                 where: {
                     id: Number(id)
                 }
             });
 
-            return nomor;
+            return nasabah.handphone;
         } catch (error) {
             throw error;
         }

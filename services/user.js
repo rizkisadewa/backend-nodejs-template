@@ -66,14 +66,14 @@ class UserService {
 
     static async getNomor(kode) {
         try {
-            const nomor = await database.user.findOne({
+            const user = await database.user.findOne({
                 attributes: ['no_tlp'],
                 where: {
                     kode: kode
                 }
             });
 
-            return nomor;
+            return user.no_tlp;
         } catch (error) {
             throw error;
         }
