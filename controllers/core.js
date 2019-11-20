@@ -58,8 +58,8 @@ class CoreController {
                     MARRIAGEID: 2,
                     BLOODTYPE: "O",
                     TXTRF: "50,000,000.00",
-                    USERID: user.username,
-                    AOID: user.kode,
+                    USERID: "s0099",
+                    AOID: "064",
                     NPWP: "698930484444000",
                     TXCASH: nasabah.setoran_awal,
                     TYPEID: "1",
@@ -114,14 +114,13 @@ class CoreController {
                 }
             });
 
-            resUtil.setSuccess(response.status, {
-                authKey: auth,
-                reqId: functionId.createCIFPerorangan,
-                txDate: date.format('YYYYMMDD'),
-                txHour: date.format('HHmmss'),
-                userGtw: userGtw.v2,
-                channelId: channel.v2
-            }, response.data);
+            if(response.data.statusId === 1) {
+                await NasabahService.updateNasabah(id, {
+                    nocif: response.data.result.CIFID
+                });
+            }
+
+            resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
