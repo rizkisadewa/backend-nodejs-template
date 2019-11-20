@@ -1,5 +1,5 @@
 import axios from 'axios';
-import hmacsha1 from 'hmacsha1';
+import crypto from 'crypto';
 import moment from 'moment';
 import querystring from 'querystring';
 import NasabahService from '../services/nasabah';
@@ -32,8 +32,8 @@ class CoreController {
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
             const marketing = await UserService.getUserByKode(nasabah.kd_agen);
-            const date = moment().subtract(10, 'm');
-            const auth = hmacsha1(userGtw.v2, functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss'));
+            const date = moment().subtract(5, 'm');
+            const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
                 reqId: functionId.createCIFPerorangan,
@@ -114,15 +114,7 @@ class CoreController {
                 }
             });
 
-            resUtil.setSuccess(response.status, {
-                authKey: auth,
-                reqId: functionId.createCIFPerorangan,
-                txDate: date.format('YYYYMMDD'),
-                txHour: date.format('HHmmss'),
-                userGtw: userGtw.v2,
-                channelId: channel.v2,
-                code: functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss')
-            }, response.data);
+            resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
