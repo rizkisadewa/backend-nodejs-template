@@ -120,7 +120,8 @@ class CoreController {
                 txDate: date.format('YYYYMMDD'),
                 txHour: date.format('HHmmss'),
                 userGtw: userGtw.v2,
-                channelId: channel.v2
+                channelId: channel.v2,
+                code: functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss')
             }, response.data);
             return resUtil.send(res);
         } catch (error) {
