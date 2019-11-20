@@ -78,7 +78,7 @@ class SMSController {
                 }
             });
 
-            resUtil.setSuccess(response.status, response.statusText, response.data);
+            resUtil.setSuccess(response.status, response.statusText, response);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
