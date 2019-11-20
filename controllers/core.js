@@ -32,7 +32,7 @@ class CoreController {
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
             const marketing = await UserService.getUserByKode(nasabah.kd_agen);
-            const date = moment().subtract(5, 'm');
+            const date = moment().add(12, 'h').subtract(5, 'm');
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
