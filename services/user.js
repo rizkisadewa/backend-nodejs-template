@@ -113,6 +113,23 @@ class UserService {
         }
     }
 
+    static async getUserByKode(kode) {
+        try {
+            const user = await database.user.findOne({
+                attributes: {
+                    exclude: ['password', 'created', 'modified']
+                },
+                where: {
+                    kode: kode
+                }
+            });
+
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async deleteUser(id) {
         try {
             const userToDelete = await database.user.findOne({

@@ -3,6 +3,7 @@ import hmacsha1 from 'hmacsha1';
 import moment from 'moment';
 import querystring from 'querystring';
 import NasabahService from '../services/nasabah';
+import UserService from '../services/user';
 import ResponseUtil from '../utils/response';
 import {
     userGtw,
@@ -30,6 +31,7 @@ class CoreController {
                 user
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
+            const marketing = await UserService.getUserByKode(nasabah.kd_agen);
             const date = moment().subtract(5, 'm');
             const auth = hmacsha1(userGtw.v2, functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHHmmss'));
             const response = await axios.post(coreUrl.v2, {
@@ -40,14 +42,14 @@ class CoreController {
                 userGtw: userGtw.v2,
                 channelId: channel.v2,
                 param: {
-                    BRANCHID: "517",
-                    BRTDT: "1981-11-13",
-                    NOHP: "+6287822923848",
+                    BRANCHID: nasabah.kd_cab,
+                    BRTDT: nasabah.tgl_lahir,
+                    NOHP: `+${nasabah.handphone}`,
                     CIFTYPE: 0,
-                    FULLNM: "RIZKI SADEWA",
-                    SURENM: "RIZKI",
+                    FULLNM: nasabah.nama_nsb,
+                    SURENM: nasabah.nama_singkat,
                     MOTHRNM: "HARTATI",
-                    ALIAS: "RIZKI",
+                    ALIAS: nasabah.nama_singkat,
                     SEX: 1,
                     RELIGIONID: 1,
                     BRTPLACE: "DUMMY DATA",
@@ -56,13 +58,13 @@ class CoreController {
                     MARRIAGEID: 2,
                     BLOODTYPE: "O",
                     TXTRF: "50,000,000.00",
-                    USERID: "s0099",
-                    AOID: "064",
+                    USERID: user.username,
+                    AOID: user.kode,
                     NPWP: "698930484444000",
-                    TXCASH: "50000000",
+                    TXCASH: nasabah.setoran_awal,
                     TYPEID: "1",
                     IDNBR: "3204280104890003",
-                    EXPDT: "2020-04-01",
+                    EXPDT: moment().add(1, 'y').format('YYYY-MM-DD'),
                     LASTEDUID: "0103",
                     INSURED: 0,
                     HOMEID: 2,
@@ -173,14 +175,7 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};IDTYPE=${nasabah.kd_identitas};IDNBR=${nasabah.no_identitas};NOHP=${nasabah.handphone};CIFTYPE=0;USERID=${user.username}`);
-            const response = await axios.get(coreUrl.v1.set, null, {
-                params: {
-                    channelid: channel.v1,
-                    userGtw: userGtw.v1,
-                    id: functionId.createCIF,
-                    input: body
-                }
-            });
+            const response = await axios.get(`${coreUrl.v1.get}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createCIF}&input=${body}`);
 
             if (response.data.STATUS === 1) {
                 await NasabahService.updateNasabah(id, {
@@ -279,14 +274,7 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=2;PRODID=${nasabah.jenis_tabungan};SVGTYPE=${nasabah.sifat_dana};USERID=${user.username}`);
-            const response = await axios.get(coreUrl.v1.set, null, {
-                params: {
-                    channelid: channel.v1,
-                    userGtw: userGtw.v1,
-                    id: functionId.createTabungan,
-                    input: body
-                }
-            });
+            const response = await axios.get(`${coreUrl.v1.get}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
             if (response.data.STATUS === 1) {
                 await NasabahService.updateNasabah(id, {
