@@ -279,17 +279,16 @@ class CoreController {
         } = req;
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=2;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.sifat_dana};USERID=${user.username}`);
-            // const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
+            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=021;USERID=${user.username}`);
+            const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
-            // if (response.data.STATUS === 1) {
-            //     await NasabahService.updateNasabah(id, {
-            //         rek_bjbs: response.data.ACCNBR
-            //     });
-            // }
+            if (response.data.STATUS === 1) {
+                await NasabahService.updateNasabah(id, {
+                    rek_bjbs: response.data.ACCNBR
+                });
+            }
 
-            // resUtil.setSuccess(response.status, response.statusText, response.data);
-            resUtil.setSuccess(200, "OK", `${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
+            resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
