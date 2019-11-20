@@ -12,6 +12,7 @@ import {
     validationResult
 } from 'express-validator';
 import moment from 'moment';
+import fs from 'fs-extra';
 import path from 'path';
 import base64Img from 'base64-img';
 
@@ -145,9 +146,14 @@ class NasabahController {
 
             if (id) {
                 result.nasabah = await NasabahService.getNasabahCustom(id);
-                if (Object.keys(result.nasabah).length > 0)
-                    result.nasabah.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`));
-                else {
+                if (Object.keys(result.nasabah).length > 0) {
+                    const file = path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`);
+                    if (fs.existsSync(file)) {
+                        result.nasabah.foto_ktp = base64Img.base64Sync(file);
+                    } else {
+                        result.nasabah.foto_ktp = null;
+                    }
+                } else {
                     resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
                     return resUtil.send(res);
                 }
@@ -221,7 +227,12 @@ class NasabahController {
 
             // Data Primary
             result.nasabah = await NasabahService.getNasabahCustom(id);
-            result.nasabah.foto_ktp = base64Img.base64Sync(path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`));
+            const file = path.join(path.resolve(), `public/uploads/${result.nasabah.foto_ktp}`);
+            if (fs.existsSync(file)) {
+                result.nasabah.foto_ktp = base64Img.base64Sync(file);
+            } else {
+                result.nasabah.foto_ktp = null;
+            }
 
             // Master Selectbox
             result.box = {};
@@ -538,9 +549,9 @@ class NasabahController {
     }
 
     // Laporan Pembukaan Rekening
-    static async getAllNasabahLapPembRek(req, res){
+    static async getAllNasabahLapPembRek(req, res) {
 
-        try{
+        try {
 
             const {
                 page,
@@ -549,10 +560,10 @@ class NasabahController {
 
             const allNasabahLapPembRek = {};
 
-            if(allNasabahLapPembRek.length > 0){
-              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah berhasil ditampilkan', allNasabahLapPembRek);
+            if (allNasabahLapPembRek.length > 0) {
+                resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah berhasil ditampilkan', allNasabahLapPembRek);
             } else {
-              resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah kosong', allNasabahLapPembRek);
+                resUtil.setSuccess(200, 'Data Laporan Pembukaan Rekening Nasabah kosong', allNasabahLapPembRek);
             }
 
             return resUtil.send(res);
@@ -563,34 +574,34 @@ class NasabahController {
     }
 
     // Report Pembukaan Rekening
-    static async getReportPembukaanRekeningData(req, res){
-      try {
+    static async getReportPembukaanRekeningData(req, res) {
+        try {
 
-          let result = {};
+            let result = {};
 
-          const {
-            tgl_awal,
-            tgl_akhir
-          } = req.params;
+            const {
+                tgl_awal,
+                tgl_akhir
+            } = req.params;
 
-          if(tgl_awal && tgl_akhir){
-            result.nasabah = await NasabahService.getReportPembukaanRekeningData(tgl_awal, tgl_akhir);
-            if(Object.keys(result.nasabah).length <= 0){
-              resUtil.setError(404, `Report dari tanggal ${tgl_awal} s.d. ${tgl_akhir} tidak ditemukan`)
-              return resUtil.send(res);
+            if (tgl_awal && tgl_akhir) {
+                result.nasabah = await NasabahService.getReportPembukaanRekeningData(tgl_awal, tgl_akhir);
+                if (Object.keys(result.nasabah).length <= 0) {
+                    resUtil.setError(404, `Report dari tanggal ${tgl_awal} s.d. ${tgl_akhir} tidak ditemukan`)
+                    return resUtil.send(res);
+                }
+            } else {
+                result.user = req.user
             }
-          } else {
-            result.user = req.user
-          }
 
-          resUtil.setSuccess(200, 'API Report Pembukaan Rekening Export View berhasil ditampilkan', result);
+            resUtil.setSuccess(200, 'API Report Pembukaan Rekening Export View berhasil ditampilkan', result);
 
-          return resUtil.send(res);
+            return resUtil.send(res);
 
-      } catch(error) {
-        resUtil.setError(400, error);
-        return resUtil.send(res);
-      }
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
     }
 
 

@@ -48,6 +48,37 @@ class UserService {
         }
     }
 
+    static async getNomorSO(kode_cabang) {
+        try {
+            const nomor = await database.user.findOne({
+                attributes: ['no_tlp'],
+                where: {
+                    kode_cabang: kode_cabang,
+                    kode_user_type: '003'
+                }
+            });
+
+            return nomor;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getNomor(kode) {
+        try {
+            const nomor = await database.user.findOne({
+                attributes: ['no_tlp'],
+                where: {
+                    kode: kode
+                }
+            });
+
+            return nomor;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async getUserJwt(id) {
         try {
             const user = await database.user.findOne({

@@ -48,6 +48,21 @@ class NasabahService {
         }
     }
 
+    static async getNomor(id) {
+        try {
+            const nomor = await database.nasabah.findOne({
+                attributes: ['handphone'],
+                where: {
+                    id: Number(id)
+                }
+            });
+
+            return nomor;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async getNasabahCustom(id) {
         try {
             const query = `

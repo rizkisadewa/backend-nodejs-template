@@ -84,5 +84,7 @@ export default (app) => {
 
     // API routes SMS
     app.post('/api/send-sms', SMSController.sendSMS);
-
+    app.get('/api/sms/notif-so', AuthController.verifyJwt, SMSController.notifSO);
+    app.get('/api/sms/notif-m', AuthController.verifyJwt, SMSController.notifM);
+    app.get('/api/sms/notif-n', AuthController.verifyJwt, SMSController.notifN);
 };
