@@ -31,7 +31,7 @@ class CoreController {
                 user
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const marketing = await UserService.getUserByKode(nasabah.kd_agen);
+            // const marketing = await UserService.getUserByKode(nasabah.kd_agen);
             const date = moment().add(12, 'h');
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
@@ -58,7 +58,7 @@ class CoreController {
                     MARRIAGEID: 2,
                     BLOODTYPE: "O",
                     TXTRF: "50,000,000.00",
-                    USERID: "s0099",
+                    USERID: user.username,
                     AOID: "064",
                     NPWP: "698930484444000",
                     TXCASH: nasabah.setoran_awal,
@@ -279,7 +279,7 @@ class CoreController {
         } = req;
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=2;PRODID=${nasabah.jenis_tabungan};SVGTYPE=${nasabah.sifat_dana};USERID=${user.username}`);
+            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=2;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.sifat_dana};USERID=${user.username}`);
             const response = await axios.get(`${coreUrl.v1.get}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
             if (response.data.STATUS === 1) {
