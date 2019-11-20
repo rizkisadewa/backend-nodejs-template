@@ -79,7 +79,7 @@ class SMSController {
             // });
             const response = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode}&msisdn=${nomorSO}`);
 
-            resUtil.setSuccess(response.status, response.statusText, response.data);
+            resUtil.setSuccess(response.status, nomorSO, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
