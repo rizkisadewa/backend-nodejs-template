@@ -284,7 +284,7 @@ class CoreController {
 
             if (response.data.STATUS === 1) {
                 await NasabahService.updateNasabah(id, {
-                    new_rek: response.data.ACCNBR
+                    newrek: response.data.ACCNBR
                 });
             }
 

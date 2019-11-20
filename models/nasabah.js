@@ -227,7 +227,7 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    new_rek: {
+    newrek: {
       allowNull: true,
       type: DataTypes.STRING
     }
