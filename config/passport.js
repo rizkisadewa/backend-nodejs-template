@@ -47,12 +47,6 @@ export default passport => {
             return done('Waktu Sign In Anda telah habis');
         }
 
-        const user = await UserService.getUserJwt(payload.id);
-
-        if (!user) {
-            return done('User tidak memiliki hak akses');
-        }
-
-        return done(null, user);
+        return done(null, payload);
     }));
 };
