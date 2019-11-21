@@ -3,7 +3,14 @@ import ResponseUtil from '../utils/response';
 import {
     emptyStringsToNull
 } from '../utils/utilities';
+import {
+    body,
+    validationResult
+} from 'express-validator';
 import moment from 'moment';
+import fs from 'fs-extra';
+import path from 'path';
+import base64Img from 'base64-img';
 
 const resUtil = new ResponseUtil();
 
@@ -26,11 +33,15 @@ class UserController {
     }
 
     static async addUser(req, res) {
-        const newUser = emptyStringsToNull(req.body);
+
+      const newUser = emptyStringsToNull(req.body);
+
         try {
+
             const createdUser = await UserService.addUser(newUser);
             resUtil.setSuccess(201, 'User berhasil ditambahkan', createdUser);
             return resUtil.send(res);
+
         } catch (error) {
             if (error.errors) {
                 resUtil.setError(400, error.errors[0].message);
@@ -141,11 +152,14 @@ class UserController {
         let userData = emptyStringsToNull(req.body);
         const file = req.files;
 
+        const {
+            id
+        } = req.params;
+
         if (id) {
           delete userData.foto;
           if(files.length > 0)
               userData.foto = `${files[0].fieldname}/${files[0].originalname}`;
-          delete userData.kode_user_type;
           const updateUser = await UserService.updateUser(id, userData);
           resUtil.setSuccess(201, 'User berhasil diperbarui', updateUser);
         } else {

@@ -108,6 +108,22 @@ export default (sequelize, DataTypes) => {
         }
       }
     },
+    aoid: {
+      allowNull: false,
+      unique: {
+        msg: 'AOID sudah terdaftar'
+      },
+      type: DataTypes.STRING,
+      validate: {
+        notNull: {
+          msg: 'AOID harus diisi'
+        },
+        len: {
+          args: [3],
+          msg: 'Username harus berisi diantara 3 karakter'
+        }
+      }
+    },
     created: {
       defaultValue: DataTypes.NOW,
       type: DataTypes.DATE,
