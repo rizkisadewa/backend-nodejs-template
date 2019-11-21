@@ -40,11 +40,13 @@ export default (sequelize, DataTypes) => {
       }
     },
     password: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING,
       validate: {
-        notNull: {
-          msg: 'Password harus diisi'
+        customValidator(value) {
+          if (!value && !this.id) {
+            throw new Error("Password harus diisi");
+          }
         },
         len: {
           args: [6, 100],
@@ -125,6 +127,7 @@ export default (sequelize, DataTypes) => {
       }
     },
     created: {
+      allowNull: true,
       defaultValue: DataTypes.NOW,
       type: DataTypes.DATE,
       get() {
@@ -132,6 +135,7 @@ export default (sequelize, DataTypes) => {
       }
     },
     modified: {
+      allowNull: true,
       defaultValue: DataTypes.NOW,
       type: DataTypes.DATE,
       get() {

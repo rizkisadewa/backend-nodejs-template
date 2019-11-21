@@ -3,7 +3,9 @@ import database from '../models';
 class UserService {
     static async getAllUsers() {
         try {
-            return await database.user.findAll();
+            return await database.user.findAll({
+                order: [['modified', 'DESC']]
+            });
         } catch (error) {
             throw error;
         }
