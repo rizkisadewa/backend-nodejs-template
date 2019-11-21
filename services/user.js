@@ -50,7 +50,7 @@ class UserService {
 
     static async getNomorSO(kode_cabang) {
         try {
-            const nomor = await database.user.findOne({
+            const user = await database.user.findOne({
                 attributes: ['no_tlp'],
                 where: {
                     kode_cabang: kode_cabang,
@@ -58,7 +58,7 @@ class UserService {
                 }
             });
 
-            return nomor;
+            return user.no_tlp;
         } catch (error) {
             throw error;
         }
@@ -66,14 +66,14 @@ class UserService {
 
     static async getNomor(kode) {
         try {
-            const nomor = await database.user.findOne({
+            const user = await database.user.findOne({
                 attributes: ['no_tlp'],
                 where: {
                     kode: kode
                 }
             });
 
-            return nomor;
+            return user.no_tlp;
         } catch (error) {
             throw error;
         }
@@ -104,6 +104,23 @@ class UserService {
                 },
                 where: {
                     username: username
+                }
+            });
+
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getUserByKode(kode) {
+        try {
+            const user = await database.user.findOne({
+                attributes: {
+                    exclude: ['password', 'created', 'modified']
+                },
+                where: {
+                    kode: kode
                 }
             });
 

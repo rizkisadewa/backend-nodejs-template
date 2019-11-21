@@ -21,11 +21,12 @@ export default (app) => {
     app.get('/api/disduk/call-nik', AuthController.verifyJwt, DisdukController.callNIK);
 
     // API routes Core
-    app.get('/api/core/create-cif-perorangan', AuthController.verifyJwt, CoreController.createCIFPerorangan);
-    app.post('/api/core/create-cif/:id', AuthController.verifyJwt, CoreController.createCIF);
-    app.post('/api/core/update-cif/:id', AuthController.verifyJwt, CoreController.updateCIF);
-    app.post('/api/core/create-tabungan/:id', AuthController.verifyJwt, CoreController.createTabungan);
-    app.post('/api/core/card-activate/:id', AuthController.verifyJwt, CoreController.cardActivate);
+    app.post('/api/core/create-cif-perorangan/:id', AuthController.verifyJwt, CoreController.createCIFPerorangan);
+    app.get('/api/core/inquiry-cif', AuthController.verifyJwt, CoreController.inquiryCIF);
+    app.get('/api/core/create-cif/:id', AuthController.verifyJwt, CoreController.createCIF);
+    app.get('/api/core/update-cif/:id', AuthController.verifyJwt, CoreController.updateCIF);
+    app.get('/api/core/create-tabungan/:id', AuthController.verifyJwt, CoreController.createTabungan);
+    app.get('/api/core/card-activate/:id', AuthController.verifyJwt, CoreController.cardActivate);
 
     // API routes Cabang
     app.get('/api/cabang', CabangController.getAllCabangs);

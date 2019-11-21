@@ -227,7 +227,7 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    rek_bjbs: {
+    newrek: {
       allowNull: true,
       type: DataTypes.STRING
     }

@@ -153,6 +153,7 @@ class NasabahController {
                     } else {
                         result.nasabah.foto_ktp = null;
                     }
+                    result.nasabah.handphone = result.nasabah.handphone.substring(2);
                 } else {
                     resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
                     return resUtil.send(res);
@@ -198,6 +199,7 @@ class NasabahController {
 
             if (id) {
                 delete primaryData.foto_ktp;
+                primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
                 if (files.length > 0)
                     primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
                 delete primaryData.kode_negara;
