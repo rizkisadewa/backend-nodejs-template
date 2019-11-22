@@ -49,6 +49,8 @@ export default (app) => {
     app.get('/api/user/:id', UserController.getUser);
     app.put('/api/user/:id', UserController.updateUser);
     app.delete('/api/user/:id', UserController.deleteUser);
+    app.get('/api/user/custom/:id', UserController.getUserCustom);
+    app.get('/api/all-user/custom', UserController.getAllUsersCustom);
 
     // API routes Nasabah
     // Custom routes get

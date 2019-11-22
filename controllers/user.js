@@ -32,6 +32,28 @@ class UserController {
         }
     }
 
+    // Get All User Custom
+    static async getAllUsersCustom(req, res) {
+        try {
+          const {
+            page
+          } = req.query;
+
+            const allUsersCustom = await UserService.getAllUsersCustom(page);
+
+            if (allUsersCustom.length > 0) {
+                resUtil.setSuccess(200, 'Data User berhasil ditampilkan', allUsersCustom);
+            } else {
+                resUtil.setSuccess(200, 'Data User kosong');
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
     static async addUser(req, res) {
         try {
 
@@ -184,5 +206,34 @@ class UserController {
         }
 
     }
+
+    // Get User Custom by User Type && Nama Cabang
+    static async getUserCustom(req, res) {
+      const {
+        id
+      } = req.params;
+
+      if (!Number(id)) {
+          resUtil.setError(400, 'id Nasabah harus bernilai angka');
+          return resUtil.send(res);
+      }
+
+      try{
+        const user = await UserService.getUserCustom(id);
+
+        if(!user){
+          resUtil.setError(404, `User dengan id : ${id} tidak ditemukan`);
+        } else {
+          resUtil.setSuccess(200, 'User berhasil ditampilkan', user);
+        }
+
+        return resUtil.send(res);
+      } catch(error){
+        resUtil.setError(400, error);
+        return resUtil.send(res);
+      }
+    }
+
+
 }
 export default UserController;
