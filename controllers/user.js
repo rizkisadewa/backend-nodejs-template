@@ -173,6 +173,9 @@ class UserController {
 
             if (files.length > 0)
                 userData.foto = `${files[0].fieldname}/${files[0].originalname}`;
+            
+            delete userData.created;
+            userData.modified = moment().format('YYYY-MM-DD HH:mm:ss');
 
             const updatedUser = await UserService.updateUser(userData.id, userData);
             resUtil.setSuccess(201, 'User berhasil perbaharui', updatedUser);
