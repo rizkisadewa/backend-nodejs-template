@@ -163,6 +163,7 @@ class UserService {
             usr.no_tlp,
             usr.foto,
             usr.id,
+            usr.aoid,
             cabang.nama as nama_cabang,
             user_type.nama as user_type
           FROM
