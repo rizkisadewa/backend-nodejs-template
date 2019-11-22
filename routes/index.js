@@ -44,7 +44,8 @@ export default (app) => {
 
     // API routes User
     app.get('/api/user', UserController.getAllUsers);
-    app.post('/api/user', UserController.addUser);
+    app.post('/api/user', upload.any(), UserController.addUser);
+    app.post('/api/user/save', upload.any(), UserController.saveUser);
     app.get('/api/user/:id', UserController.getUser);
     app.put('/api/user/:id', UserController.updateUser);
     app.delete('/api/user/:id', UserController.deleteUser);

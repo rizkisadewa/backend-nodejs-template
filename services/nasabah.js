@@ -194,11 +194,11 @@ class NasabahService {
             });
 
             //get max page
-            const temp_size = await database.sequelize.query(query , {
-                type: database.Sequelize.QueryTypes.SELECT
-            });
+            // const temp_size = await database.sequelize.query(query , {
+            //     type: database.Sequelize.QueryTypes.SELECT
+            // });
 
-            primaryData.max_page = Math.ceil(temp_size.length/max_page);
+            // primaryData.max_page = Math.ceil(temp_size.length/max_page);
 
             return primaryData;
 

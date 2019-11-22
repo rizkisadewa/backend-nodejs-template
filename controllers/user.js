@@ -55,10 +55,23 @@ class UserController {
     }
 
     static async addUser(req, res) {
-
-      const newUser = emptyStringsToNull(req.body);
-
         try {
+
+            const errors = validationResult(req);
+            const errorFile = req.fileValidationError;
+
+            if (!errors.isEmpty()) {
+                throw errors.array()[0].msg;
+            }
+
+            if (errorFile) {
+                throw errorFile;
+            }
+
+            let newUser = emptyStringsToNull(req.body);
+            const files = req.files;
+
+            newUser.foto = `${files[0].fieldname}/${files[0].originalname}`;
 
             const createdUser = await UserService.addUser(newUser);
             resUtil.setSuccess(201, 'User berhasil ditambahkan', createdUser);
@@ -122,6 +135,12 @@ class UserController {
             if (!user) {
                 resUtil.setError(404, `User dengan id: ${id} tidak ditemukan`);
             } else {
+                const file = path.join(path.resolve(), `public/uploads/${user.foto}`);
+                if (fs.existsSync(file)) {
+                    user.foto = base64Img.base64Sync(file);
+                } else {
+                    user.foto = null;
+                }
                 resUtil.setSuccess(200, 'User berhasil ditampilkan', user);
             }
 
@@ -158,43 +177,33 @@ class UserController {
         }
     }
 
-    static async saveUserData(req, res){
-      try{
-        const errors = validationResult(req);
-        const errorFile = req.fileValidationError;
+    static async saveUser(req, res) {
+        try {
+            const errors = validationResult(req);
+            const errorFile = req.fileValidationError;
 
-        if(!errors.isEmpty()){
-          throw erros.array()[0].msg;
+            if (!errors.isEmpty()) {
+                throw erros.array()[0].msg;
+            }
+
+            if (errorFile) {
+                throw errorFile;
+            }
+
+            let userData = emptyStringsToNull(req.body);
+            const files = req.files;
+
+            if (files.length > 0)
+                userData.foto = `${files[0].fieldname}/${files[0].originalname}`;
+
+            const updatedUser = await UserService.updateUser(userData.id, userData);
+            resUtil.setSuccess(201, 'User berhasil perbaharui', updatedUser);
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
         }
-
-        if(errorFile) {
-          throw errorFile;
-        }
-
-        let userData = emptyStringsToNull(req.body);
-        const file = req.files;
-
-        const {
-            id
-        } = req.params;
-
-        if (id) {
-          delete userData.foto;
-          if(files.length > 0)
-              userData.foto = `${files[0].fieldname}/${files[0].originalname}`;
-          const updateUser = await UserService.updateUser(id, userData);
-          resUtil.setSuccess(201, 'User berhasil diperbarui', updateUser);
-        } else {
-          userData.foto = `${files[0].fieldname}/${files[0].originalname}`;
-          const createdUser = await UserService.addUser(userData);
-          resUtil.setSuccess(201, 'User berhasil ditambahkan', createdUser);
-        }
-
-        return resUtil.send(res);
-      } catch (error) {
-        resUtil.setError(400, error);
-        return resUtil.send(res);
-      }
 
     }
 
