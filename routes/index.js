@@ -24,7 +24,6 @@ export default (app) => {
     // API routes Core
     app.post('/api/core/create-cif-perorangan/:id', AuthController.verifyJwt, CoreController.createCIFPerorangan);
     app.get('/api/core/inquiry-cif', AuthController.verifyJwt, CoreController.inquiryCIF);
-    app.get('/api/core/create-cif/:id', AuthController.verifyJwt, CoreController.createCIF);
     app.get('/api/core/update-cif/:id', AuthController.verifyJwt, CoreController.updateCIF);
     app.get('/api/core/create-tabungan/:id', AuthController.verifyJwt, CoreController.createTabungan);
     app.get('/api/core/card-activate/:id', AuthController.verifyJwt, CoreController.cardActivate);
@@ -50,8 +49,7 @@ export default (app) => {
     app.get('/api/user/:id', UserController.getUser);
     app.put('/api/user/:id', UserController.updateUser);
     app.delete('/api/user/:id', UserController.deleteUser);
-    app.get('/api/user/custom/:id', UserController.getUserCustom);
-    app.get('/api/all-user/custom', UserController.getAllUsersCustom);
+    app.get('/api/user-profile/:username', UserController.getUserProfile);
 
     // API routes Nasabah
     // Custom routes get
