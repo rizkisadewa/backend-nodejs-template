@@ -10,5 +10,8 @@
 /temp
 /public
 
+# database
+/config/database.json
+
 # local files
 package-lock.json

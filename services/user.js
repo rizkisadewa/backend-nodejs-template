@@ -172,6 +172,98 @@ class UserService {
             throw error;
         }
     }
+
+    // Get user by User Type && Nama Cabang
+    static async getUserCustom(id){
+      try{
+        let query = `
+          SELECT
+            usr.kode,
+            usr.username,
+            usr.nama,
+            usr.alamat,
+            usr.no_ktp,
+            usr.no_tlp,
+            usr.foto,
+            usr.id,
+            usr.aoid,
+            cabang.nama as nama_cabang,
+            user_type.nama as user_type
+          FROM
+            public.user usr
+          LEFT JOIN
+            cabang ON cabang.kode = usr.kode_cabang
+          LEFT JOIN
+            user_type ON user_type.kode = usr.kode_user_type
+          WHERE
+            usr.id = '${id}'
+        `;
+
+        // get the data
+        const userData = await database.sequelize.query(query , {
+            type: database.Sequelize.QueryTypes.SELECT
+        });
+
+        return userData.length > 0 ? userData[0] : {};
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    // Get All User Custom
+    static async getAllUsersCustom(page) {
+      try{
+        let query = `
+          SELECT
+            usr.kode,
+            usr.username,
+            usr.nama,
+            usr.alamat,
+            usr.no_ktp,
+            usr.no_tlp,
+            usr.foto,
+            usr.id,
+            cabang.nama as nama_cabang,
+            user_type.nama as user_type
+          FROM
+            public.user usr
+          LEFT JOIN
+            cabang ON cabang.kode = usr.kode_cabang
+          LEFT JOIN
+            user_type ON user_type.kode = usr.kode_user_type
+        `;
+
+        const max_page = 10;
+        const offset = ((page - 1) * max_page);
+
+        //pagination
+        let limitation =  ``;
+
+        if(page > 0)
+        {
+            limitation = ` offset '${offset}' limit '${max_page}' `;
+        }
+
+        const allUsersCustomData = {};
+
+        //get data with limitation
+        allUsersCustomData.rows = await database.sequelize.query(query , {
+            type: database.Sequelize.QueryTypes.SELECT
+        });
+
+        //get max page
+        const temp_size = await database.sequelize.query(query , {
+            type: database.Sequelize.QueryTypes.SELECT
+        });
+
+        allUsersCustomData.max_page = Math.ceil(temp_size.length/max_page);
+
+        return allUsersCustomData;
+
+      } catch (error) {
+        throw error;
+      }
+    }
 }
 
 export default UserService;
