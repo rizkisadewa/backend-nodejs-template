@@ -57,7 +57,20 @@ class AuthController {
                     body('password').not().isEmpty().withMessage('Password harus diisi'),
                     body('password').isLength({
                         min: 6
-                    }).withMessage('Password minimal berisi 6 karakter')
+                    }).withMessage('Password minimal berisi 6 karakter'),
+                    body('captcha').custom((value, {
+                        req
+                    }) => {
+                        if (!value.input) {
+                            throw new Error('Captcha harus diisi');
+                        }
+
+                        if (value.input !== value.text) {
+                            throw new Error('Captch tidak sesuai');
+                        }
+
+                        return true;
+                    })
                 ]
             }
         }
