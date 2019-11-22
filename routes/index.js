@@ -9,6 +9,7 @@ import upload from '../utils/upload';
 import MasterController from '../controllers/master';
 import DisdukController from '../controllers/disduk';
 import SMSController from '../controllers/sms'
+import CaptchaController from '../controllers/captcha';
 
 export default (app) => {
     // API routes Auth
@@ -91,4 +92,7 @@ export default (app) => {
     app.get('/api/sms/notif-so', AuthController.verifyJwt, SMSController.notifSO);
     app.get('/api/sms/notif-m', AuthController.verifyJwt, SMSController.notifM);
     app.get('/api/sms/notif-n', AuthController.verifyJwt, SMSController.notifN);
+
+    //API get Captcha
+    app.get('/api/get-captcha', CaptchaController.getCaptcha);
 };
