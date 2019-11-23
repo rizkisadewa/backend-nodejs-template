@@ -58,7 +58,7 @@ export default (app) => {
     app.get('/api/nasabah/primary-data', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/primary-data/:id', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/secondary-data', AuthController.verifyJwt, NasabahController.getSecondaryData);
-    app.get('/api/nasabah/nasabah-by-status', NasabahController.getAllNasabahByStatus);
+    app.get('/api/nasabah/nasabah-by-status', AuthController.verifyJwt, NasabahController.getAllNasabahByStatus);
     app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek);
 
     // Custon routes post

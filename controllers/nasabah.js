@@ -315,32 +315,6 @@ class NasabahController {
         }
     }
 
-    static async getDisdukData(req, res) {
-        const {
-            nik
-        } = req.params;
-
-        if (!Number(nik)) {
-            resUtil.setError(400, 'Nomor Kartu Identitas harus bernilai angka');
-            return resUtil.send(res);
-        }
-
-        try {
-            // const nasabah = await
-
-            // if (!nasabah) {
-            //     resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
-            // } else {
-            //     resUtil.setSuccess(200, 'Nasabah berhasil ditampilkan', nasabah);
-            // }
-
-            return resUtil.send(res);
-        } catch (error) {
-            resUtil.setError(400, error);
-            return resUtil.send(res);
-        }
-    }
-
     static validate(method) {
         switch (method) {
             case 'primary-data': {
@@ -394,17 +368,17 @@ class NasabahController {
         }
     }
 
-
     static async getAllNasabahByStatus(req, res) {
+        const {
+            page,
+            status
+        } = req.query;
 
+        const {
+            user
+        } = req;
         try {
-
-            const {
-                page,
-                status
-            } = req.query;
-
-            const allNasabah = await NasabahService.getNasabahByStatus(status, page);
+            const allNasabah = await NasabahService.getNasabahByStatus(user.kode_cabang, status, page);
 
             if (allNasabah.rows.length > 0) {
                 resUtil.setSuccess(200, 'Data Nasabah berhasil ditampilkan', allNasabah);
@@ -451,7 +425,6 @@ class NasabahController {
         }
     }
 
-
     static async rejectReqNewData(req, res) {
         const alteredNasabah = emptyStringsToNull(req.body);
 
@@ -484,7 +457,6 @@ class NasabahController {
         }
     }
 
-
     static async approveReqUpdateData(req, res) {
         const alteredNasabah = emptyStringsToNull(req.body);
 
@@ -516,7 +488,6 @@ class NasabahController {
             return resUtil.send(res);
         }
     }
-
 
     static async rejectReqUpdateData(req, res) {
         const alteredNasabah = emptyStringsToNull(req.body);
@@ -605,9 +576,5 @@ class NasabahController {
             return resUtil.send(res);
         }
     }
-
-
-
-
 }
 export default NasabahController;

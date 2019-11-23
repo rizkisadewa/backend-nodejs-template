@@ -6,6 +6,7 @@ import passport from 'passport';
 import cors from 'cors';
 import passportConfig from './config/passport';
 import routes from './routes';
+import database from './models';
 
 const hostname = '127.0.0.1';
 const port = 3001;
@@ -37,3 +38,12 @@ app.get('*', (req, res) => res.send({
 server.listen(port, hostname, () => {
     console.log(`Rest API Server running at http://${hostname}:${port}/`);
 });
+
+database.sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });

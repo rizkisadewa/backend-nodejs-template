@@ -108,8 +108,7 @@ class NasabahService {
         }
     }
 
-
-    static async getNasabahByStatus(status, page) {
+    static async getNasabahByStatus(kode_cabang, status, page) {
         try {
             let query = `
             SELECT
@@ -130,66 +129,54 @@ class NasabahService {
             const offset = ((page - 1) * max_page);
 
 
-            if(status == "update")
-            {
+            if (status == "update") {
                 sql_condition += ` WHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data IS NULL `;
-            }
-            else if(status == "pending")
-            {
+            } else if (status == "pending") {
                 sql_condition += ` WHERE nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' OR
                                      nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected' `;
-            }
-            else if(status == "req_new_data")
-            {
+            } else if (status == "req_new_data") {
                 sql_condition += ` WHERE nsb.status_primary_data = 'waiting_update' `;
-            }
-            else if(status == "req_update_data")
-            {
+            } else if (status == "req_update_data") {
                 sql_condition += ` WHERE nsb.status_secondary_data = 'waiting_update' `;
-            }
-            else if(status == "completed")
-            {
+            } else if (status == "completed") {
                 sql_condition += `
                 WHERE nsb.status_primary_data = 'approved' AND
                     nsb.primary_data_keterangan = 'approved' AND
                     nsb.status_secondary_data = 'approved' AND
                     nsb.secondary_data_keterangan = 'approved'
                 `;
-            }
-            else if(status == "approved")
-            {
+            } else if (status == "approved") {
                 sql_condition += `
                     WHERE nsb.status_primary_data = 'approved' OR
                     nsb.status_secondary_data = 'approved'
                 `;
-            }
-            else if(status == "rejected")
-            {
+            } else if (status == "rejected") {
                 sql_condition += `
                     WHERE nsb.status_primary_data = 'rejected' OR
                     nsb.status_secondary_data = 'rejected'
                 `;
-            } else if(status == "pembukaan_rekening"){
+            } else if (status == "pembukaan_rekening") {
                 sql_condition += `
                     WHERE nsb.status_primary_data = 'approved' AND
                     nsb.status_secondary_data = 'approved'
                 `;
             }
 
+            sql_condition += ` AND nsb.kd_cab = '${kode_cabang}'`;
+
             query = query + sql_condition;
 
             //pagination
-            let limitation =  ``;
+            let limitation = ``;
 
-            if(page > 0)
-            {
+            if (page > 0) {
                 limitation = ` offset '${offset}' limit '${max_page}' `;
             }
 
             const primaryData = {};
 
             //get data with limitation
-            primaryData.rows = await database.sequelize.query(query+limitation , {
+            primaryData.rows = await database.sequelize.query(query + limitation, {
                 type: database.Sequelize.QueryTypes.SELECT
             });
 
@@ -223,44 +210,44 @@ class NasabahService {
         }
     }
 
-    static async getReportPembukaanRekeningData(start_date, finish_date){
-      try{
-        const query = `
-        SELECT
-            nsb.*,
-            knm.kode as kode_negara,
-            knm.negara as warganegara,
-            jtm.keterangan as jenis_tabungan,
-            cbg.kode as kode_kantor_cabang,
-            cbg.nama as kantor_cabang,
-            usr.nama as nama_marketing,
-            usr.username as kode_fo
-        FROM
-            nasabah nsb
-        LEFT JOIN
-            kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
-        LEFT JOIN
-            jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
-        FULL JOIN
-            cabang cbg ON cbg.kode = nsb.kd_cab
-        FULL JOIN
-            public.user usr ON usr.kode = nsb.kd_agen
+    static async getReportPembukaanRekeningData(start_date, finish_date) {
+        try {
+            const query = `
+            SELECT
+                nsb.*,
+                knm.kode as kode_negara,
+                knm.negara as warganegara,
+                jtm.keterangan as jenis_tabungan,
+                cbg.kode as kode_kantor_cabang,
+                cbg.nama as kantor_cabang,
+                usr.nama as nama_marketing,
+                usr.username as kode_fo
+            FROM
+                nasabah nsb
+            LEFT JOIN
+                kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
+            LEFT JOIN
+                jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
+            FULL JOIN
+                cabang cbg ON cbg.kode = nsb.kd_cab
+            FULL JOIN
+                public.user usr ON usr.kode = nsb.kd_agen
 
-        WHERE nsb.status_primary_data = 'approved' AND
-        nsb.status_secondary_data = 'approved' AND
-        nsb.date >= '${start_date}' AND
-        nsb.date <= '${finish_date}'
-        `;
+            WHERE nsb.status_primary_data = 'approved' AND
+            nsb.status_secondary_data = 'approved' AND
+            nsb.date >= '${start_date}' AND
+            nsb.date <= '${finish_date}'
+            `;
 
-        const resultReport = await database.sequelize.query(query, {
-            type: database.Sequelize.QueryTypes.SELECT
-        });
+            const resultReport = await database.sequelize.query(query, {
+                type: database.Sequelize.QueryTypes.SELECT
+            });
 
-        return resultReport;
+            return resultReport;
 
-      } catch (error) {
-          throw error;
-      }
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
