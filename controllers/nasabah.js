@@ -282,6 +282,7 @@ class NasabahController {
             }
 
             let secondaryData = emptyStringsToNull(req.body);
+            secondaryData.no_identitas_exp = moment(1e15).format('YYYY-MM-DD'); // set maximum date
             secondaryData.status_secondary_data = 'pending';
 
             const updatedNasabah = await NasabahService.updateNasabah(id, secondaryData);
