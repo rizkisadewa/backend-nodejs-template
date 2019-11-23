@@ -199,15 +199,19 @@ class NasabahController {
 
             if (id) {
                 delete primaryData.foto_ktp;
+                delete primaryData.foto_nasabah_ktp;
                 primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
-                if (files.length > 0)
+                if (files.length > 0) {
                     primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+                    primaryData.foto_nasabah_ktp = `${files[1].fieldname}/${files[1].originalname}`;
+                }
                 delete primaryData.kode_negara;
                 const updatedNasabah = await NasabahService.updateNasabah(id, primaryData);
                 resUtil.setSuccess(201, 'Nasabah berhasil perbaharui', updatedNasabah);
             } else {
                 primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
                 primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+                primaryData.foto_nasabah_ktp = `${files[1].fieldname}/${files[1].originalname}`;
                 delete primaryData.kode_negara;
                 const createdNasabah = await NasabahService.addNasabah(primaryData);
                 resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
