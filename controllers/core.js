@@ -1,9 +1,7 @@
 import axios from 'axios';
 import crypto from 'crypto';
 import moment from 'moment';
-import querystring from 'querystring';
 import NasabahService from '../services/nasabah';
-import UserService from '../services/user';
 import ResponseUtil from '../utils/response';
 import {
     userGtw,
@@ -25,7 +23,6 @@ class CoreController {
                 user
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
-            // const marketing = await UserService.getUserByKode(nasabah.kd_agen);
             const date = moment().add(12, 'h');
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
