@@ -16,9 +16,12 @@ export const baseUrl = {
 };
 export const functionId = {
   createCIFPerorangan: '00103',
+  trx: '00005',
   inquiryCIF: '001',
   createCIF: '002',
   updateCIF: '003',
   createTabungan: '004',
   cardActivate: '006'
 };
+const accNumber = '5410010001';
+export const trxAcc = '19' + accNumber + '360';

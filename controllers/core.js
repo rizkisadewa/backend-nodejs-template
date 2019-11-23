@@ -8,7 +8,8 @@ import {
     gateway,
     channel,
     baseUrl as coreUrl,
-    functionId
+    functionId,
+    trxAcc
 } from '../config/core';
 
 const resUtil = new ResponseUtil();
@@ -105,7 +106,91 @@ class CoreController {
                 }
             });
 
-            if(response.data.statusId === 1) {
+            if (response.data.statusId === 1) {
+                await NasabahService.updateNasabah(id, {
+                    nocif: response.data.result.CIFID
+                });
+            }
+
+            resUtil.setSuccess(response.status, response.statusText, response.data);
+            return resUtil.send(res);
+        } catch (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                resUtil.setError(error.response.status, error.response.data);
+                return resUtil.send(res);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        }
+    }
+
+    static async trx(req, res) {
+        try {
+            const {
+                id
+            } = req.params;
+            const {
+                user
+            } = req;
+            const nasabah = await NasabahService.getNasabahCustom(id);
+            const date = moment().add(12, 'h');
+            const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.trx + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
+            const response = await axios.post(coreUrl.v2, {
+                authKey: auth,
+                reqId: functionId.trx,
+                txDate: date.format('YYYYMMDD'),
+                txHour: date.format('HHmmss'),
+                userGtw: userGtw.v2,
+                channelId: channel.v2,
+                corpId: "005",
+                prodId: "01",
+                date: "29-07-2019",
+                date_rk: "29-07-2019",
+                branchId: "530",
+                txCcy: "IDR",
+                nbrOfAcc: "2",
+                totalAmount: "100000",
+                prosesId: "prc01",
+                userId: "k0229",
+                spvId: "",
+                revSts: "0",
+                txType: "O",
+                refAcc: "",
+                param: [{
+                        accNbr: nasabah.kd_cab + trxAcc,
+                        dbCr: 0,
+                        refAcc: "",
+                        txAmt: 100000,
+                        txCode: "199",
+                        txMsg: "Keterangan Transaksi OB Debet",
+                        isFee: 0
+                    },
+                    {
+                        accNbr: nasabah.newrek,
+                        dbCr: 1,
+                        refAcc: "",
+                        txAmt: 100000,
+                        txCode: "299",
+                        txMsg: "Keterangan Transaksi OB Kredit",
+                        isFee: 0
+                    }
+                ]
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.data.statusId === 1) {
                 await NasabahService.updateNasabah(id, {
                     nocif: response.data.result.CIFID
                 });
@@ -161,7 +246,7 @@ class CoreController {
             console.log(error.config);
         }
     }
-    
+
     static async updateCIF(req, res) {
         const {
             id
@@ -204,7 +289,7 @@ class CoreController {
         } = req;
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=021;USERID=${user.username}`);
+            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.jenis_tabungan.slice(-2) === '52' ? '032' : '021'};USERID=${user.username}`);
             const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
             if (response.data.STATUS === 1) {
