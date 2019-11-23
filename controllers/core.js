@@ -12,12 +12,6 @@ import {
     baseUrl as coreUrl,
     functionId
 } from '../config/core';
-import {
-    baseUrl as dataBalikanUrl,
-    idLembaga,
-    namaLembaga,
-    token
-} from '../config/data-balikan';
 
 const resUtil = new ResponseUtil();
 

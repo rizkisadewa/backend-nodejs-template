@@ -128,38 +128,22 @@ class NasabahService {
             const max_page = 10;
             const offset = ((page - 1) * max_page);
 
-
             if (status == "update") {
-                sql_condition += ` WHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data IS NULL `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data IS NULL`;
             } else if (status == "pending") {
-                sql_condition += ` WHERE nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' OR
-                                     nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected' `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' OR nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected'`;
             } else if (status == "req_new_data") {
-                sql_condition += ` WHERE nsb.status_primary_data = 'waiting_update' `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'waiting_update'`;
             } else if (status == "req_update_data") {
-                sql_condition += ` WHERE nsb.status_secondary_data = 'waiting_update' `;
+                sql_condition += `\nWHERE nsb.status_secondary_data = 'waiting_update'`;
             } else if (status == "completed") {
-                sql_condition += `
-                WHERE nsb.status_primary_data = 'approved' AND
-                    nsb.primary_data_keterangan = 'approved' AND
-                    nsb.status_secondary_data = 'approved' AND
-                    nsb.secondary_data_keterangan = 'approved'
-                `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'approved' AND nsb.primary_data_keterangan = 'approved' AND nsb.status_secondary_data = 'approved' AND nsb.secondary_data_keterangan = 'approved'`;
             } else if (status == "approved") {
-                sql_condition += `
-                    WHERE nsb.status_primary_data = 'approved' OR
-                    nsb.status_secondary_data = 'approved'
-                `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'approved' OR nsb.status_secondary_data = 'approved'`;
             } else if (status == "rejected") {
-                sql_condition += `
-                    WHERE nsb.status_primary_data = 'rejected' OR
-                    nsb.status_secondary_data = 'rejected'
-                `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected'`;
             } else if (status == "pembukaan_rekening") {
-                sql_condition += `
-                    WHERE nsb.status_primary_data = 'approved' AND
-                    nsb.status_secondary_data = 'approved'
-                `;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data = 'approved'`;
             }
 
             sql_condition += ` AND nsb.kd_cab = '${kode_cabang}'`;
@@ -233,10 +217,7 @@ class NasabahService {
             FULL JOIN
                 public.user usr ON usr.kode = nsb.kd_agen
 
-            WHERE nsb.status_primary_data = 'approved' AND
-            nsb.status_secondary_data = 'approved' AND
-            nsb.date >= '${start_date}' AND
-            nsb.date <= '${finish_date}'
+            WHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data = 'approved' AND nsb.date >= '${start_date}' AND nsb.date <= '${finish_date}'
             `;
 
             const resultReport = await database.sequelize.query(query, {

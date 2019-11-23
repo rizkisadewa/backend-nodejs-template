@@ -19,7 +19,8 @@ export default (app) => {
     });
 
     // API routes Disduk
-    app.get('/api/disduk/call-nik', AuthController.verifyJwt, DisdukController.callNIK);
+    app.post('/api/disduk/call-nik/:nik', AuthController.verifyJwt, DisdukController.callNIK);
+    app.post('/api/disduk/data-balikan', AuthController.verifyJwt, DisdukController.dataBalikan);
 
     // API routes Core
     app.post('/api/core/create-cif-perorangan/:id', AuthController.verifyJwt, CoreController.createCIFPerorangan);
