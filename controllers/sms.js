@@ -62,9 +62,6 @@ class SMSController {
         const {
             kode_cabang
         } = req.user;
-        const {
-            query
-        } = req;
         try {
             const messageEncode = encodeURIComponent(templateSO);
             const nomor = await UserService.getNomorSO(kode_cabang);
@@ -97,7 +94,7 @@ class SMSController {
         } = req;
         try {
             const messageEncode = encodeURIComponent(templateM);
-            const nomor = await UserService.getNomor(query.nasabah);
+            const nomor = await UserService.getNomor(query.kode);
             const response = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode}&msisdn=${nomor}`);
 
             resUtil.setSuccess(response.status, `Kirim sms ke nomor: ${nomor}`, response.data);
