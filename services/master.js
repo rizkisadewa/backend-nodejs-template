@@ -21,6 +21,42 @@ class MasterService {
             throw error;
         }
     }
+
+    static async getKota(kota_ktp) {
+        try {
+            let query = `
+            SELECT cityid
+            FROM kota_mstr
+            WHERE LOWER(citynm) LIKE LOWER('%${kota_ktp}%')
+            `;
+
+            const rows = await database.sequelize.query(query, {
+                type: database.Sequelize.QueryTypes.SELECT
+            });
+
+            return rows.length > 0 ? rows[0].cityid : '';
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getProvinsi(provinsi_ktp) {
+        try {
+            let query = `
+            SELECT id_provinsi
+            FROM provinsi_mstr
+            WHERE LOWER(keterangan) LIKE LOWER('%${provinsi_ktp}%')
+            `;
+
+            const rows = await database.sequelize.query(query, {
+                type: database.Sequelize.QueryTypes.SELECT
+            });
+
+            return rows.length > 0 ? rows[0].id_provinsi : '';
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default MasterService;

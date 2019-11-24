@@ -230,6 +230,18 @@ export default (sequelize, DataTypes) => {
     newrek: {
       allowNull: true,
       type: DataTypes.STRING
+    },
+    foto_nasabah_ktp: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    kota_ktp: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    provinsi_ktp: {
+      allowNull: true,
+      type: DataTypes.STRING
     }
   }, {
     freezeTableName: true,

@@ -153,6 +153,12 @@ class NasabahController {
                     } else {
                         result.nasabah.foto_ktp = null;
                     }
+                    const file2 = path.join(path.resolve(), `public/uploads/${result.nasabah.foto_nasabah_ktp}`);
+                    if (fs.existsSync(file2)) {
+                        result.nasabah.foto_nasabah_ktp = base64Img.base64Sync(file2);
+                    } else {
+                        result.nasabah.foto_nasabah_ktp = null;
+                    }
                     result.nasabah.handphone = result.nasabah.handphone.substring(2);
                 } else {
                     resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
@@ -163,6 +169,7 @@ class NasabahController {
             }
 
             result.box = {};
+            result.box.kd_identitas = await MasterService.get(master.kd_identitas());
             result.box.kode_negara = await MasterService.get(master.kode_negara());
             result.box.jenis_tabungan = await MasterService.get(master.jenis_tabungan());
 
@@ -201,9 +208,15 @@ class NasabahController {
                 delete primaryData.foto_ktp;
                 delete primaryData.foto_nasabah_ktp;
                 primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
-                if (files.length > 0) {
+                if (files.length > 1) {
                     primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
                     primaryData.foto_nasabah_ktp = `${files[1].fieldname}/${files[1].originalname}`;
+                } else if (files.length > 0) {
+                    if (files[0].fieldname === 'file_foto_ktp') {
+                        primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+                    } else {
+                        primaryData.foto_nasabah_ktp = `${files[0].fieldname}/${files[0].originalname}`;
+                    }
                 }
                 delete primaryData.kode_negara;
                 const updatedNasabah = await NasabahService.updateNasabah(id, primaryData);
@@ -212,6 +225,7 @@ class NasabahController {
                 primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
                 primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
                 primaryData.foto_nasabah_ktp = `${files[1].fieldname}/${files[1].originalname}`;
+                primaryData.no_identitas_exp = moment(primaryData.tgl_lahir).add(1000, 'y').format('YYYY-MM-DD'); // set maximum date
                 delete primaryData.kode_negara;
                 const createdNasabah = await NasabahService.addNasabah(primaryData);
                 resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
@@ -239,10 +253,24 @@ class NasabahController {
             } else {
                 result.nasabah.foto_ktp = null;
             }
+            const file2 = path.join(path.resolve(), `public/uploads/${result.nasabah.foto_nasabah_ktp}`);
+            if (fs.existsSync(file2)) {
+                result.nasabah.foto_nasabah_ktp = base64Img.base64Sync(file2);
+            } else {
+                result.nasabah.foto_nasabah_ktp = null;
+            }
+
+            if (result.nasabah.kota_ktp) {
+                result.nasabah.kota = await MasterService.getKota(result.nasabah.kota_ktp);
+            }
+
+            if (result.nasabah.provinsi_ktp) {
+                result.nasabah.provinsi = await MasterService.getProvinsi(result.nasabah.provinsi_ktp);
+            }
 
             // Master Selectbox
             result.box = {};
-            result.box.kd_identitas = await MasterService.get(master.kd_identitas());
+            // result.box.kd_identitas = await MasterService.get(master.kd_identitas());
             result.box.jns_kelamin = await MasterService.get(master.jns_kelamin());
             result.box.kode_agama = await MasterService.get(master.kode_agama());
             result.box.pendidikan = await MasterService.get(master.pendidikan());
@@ -286,7 +314,6 @@ class NasabahController {
             }
 
             let secondaryData = emptyStringsToNull(req.body);
-            secondaryData.no_identitas_exp = moment(1e15).format('YYYY-MM-DD'); // set maximum date
             secondaryData.status_secondary_data = 'pending';
 
             const updatedNasabah = await NasabahService.updateNasabah(id, secondaryData);
@@ -324,6 +351,8 @@ class NasabahController {
         switch (method) {
             case 'primary-data': {
                 return [
+                    body('kd_identitas').not().isEmpty().withMessage('Kode Identitas harus diisi'),
+                    body('no_identitas').not().isEmpty().withMessage('Nomor Kartu Identitas harus diisi'),
                     body('nama_nsb').not().isEmpty().withMessage('Nama Nasabah harus diisi'),
                     body('nama_singkat').not().isEmpty().withMessage('Nama Singkat harus diisi'),
                     body('tgl_lahir').not().isEmpty().withMessage('Tanggal Lahir harus diisi'),
@@ -336,8 +365,6 @@ class NasabahController {
             }
             case 'secondary-data': {
                 return [
-                    body('kd_identitas').not().isEmpty().withMessage('Kode Identitas harus diisi'),
-                    body('no_identitas').not().isEmpty().withMessage('Nomor Kartu Identitas harus diisi'),
                     body('alamat_ktp').not().isEmpty().withMessage('Alamat (KTP) harus diisi'),
                     body('rt').not().isEmpty().withMessage('RT harus diisi'),
                     body('rw').not().isEmpty().withMessage('RW harus diisi'),
@@ -350,7 +377,6 @@ class NasabahController {
                     body('kode_agama').not().isEmpty().withMessage('Agama harus diisi'),
                     body('tempat_lahir').not().isEmpty().withMessage('Tempat Lahir harus diisi'),
                     body('warganegara').not().isEmpty().withMessage('Kewarganegaraan Status harus diisi'),
-                    body('no_identitas_exp').not().isEmpty().withMessage('Masa Berlaku Identitas harus diisi'),
                     body('nama_ibu').not().isEmpty().withMessage('Nama Ibu harus diisi'),
                     body('provinsi').not().isEmpty().withMessage('Dati I harus diisi'),
                     body('kode_area').not().isEmpty().withMessage('Kode Area harus diisi'),

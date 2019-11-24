@@ -70,13 +70,16 @@ class NasabahService {
                 *,
                 SUBSTRING(handphone, 1, 2) as kode_negara,
                 jtm.keterangan as jenis_tabungan_text,
-                pm.keterangan as pendidikan_text
+                pm.keterangan as pendidikan_text,
+                itm.keterangan as kd_identitas_text
             FROM
                 nasabah nsb
             LEFT JOIN
                 jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
             LEFT JOIN
                 pendidikan_mstr pm ON pm.id_pendidikan = nsb.pendidikan
+            LEFT JOIN
+                identitas_type_mstr itm ON itm.id_identitas::character varying = nsb.kd_identitas
             WHERE
                 id = '${id}'
             `;
