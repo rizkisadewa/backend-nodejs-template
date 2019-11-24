@@ -325,15 +325,8 @@ class CoreController {
         } = req.params;
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.rek_bjbs};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=${nasabah.sifat_dana};CARDNO=${nasabah.no_kartu}`);
-            const response = await axios.get(coreUrl.v1.set, null, {
-                params: {
-                    channelid: channel.v1,
-                    userGtw: userGtw.v1,
-                    id: functionId.cardActivate,
-                    input: body
-                }
-            });
+            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
+            const response = await axios.get(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`);
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
