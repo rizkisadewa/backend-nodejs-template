@@ -52,7 +52,7 @@ class MasterService {
                 type: database.Sequelize.QueryTypes.SELECT
             });
 
-            return rows.length > 0 ? rows[0].id_provinsi : '';
+            return rows.length > 0 ? rows[0].id_propinsi : '';
         } catch (error) {
             throw error;
         }

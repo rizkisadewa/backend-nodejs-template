@@ -261,11 +261,11 @@ class NasabahController {
                 result.nasabah.foto_nasabah_ktp = null;
             }
 
-            if (result.nasabah.kota_ktp) {
+            if (result.nasabah.kota_ktp && !result.nasabah.kota) {
                 result.nasabah.kota = await MasterService.getKota(result.nasabah.kota_ktp);
             }
 
-            if (result.nasabah.provinsi_ktp) {
+            if (result.nasabah.provinsi_ktp && !result.nasabah.provinsi) {
                 result.nasabah.provinsi = await MasterService.getProvinsi(result.nasabah.provinsi_ktp);
             }
 
