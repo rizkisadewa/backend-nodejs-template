@@ -181,10 +181,10 @@ class NasabahService {
         }
     }
 
-    static async sendRequestData(id) {
+    static async sendRequestData(id, keterangan) {
         try {
             const query = `
-            UPDATE nasabah SET (status_primary_data, status_secondary_data) = (CASE WHEN status_primary_data = 'pending' OR status_primary_data = 'rejected' THEN 'waiting_update' ELSE status_primary_data END, CASE WHEN status_secondary_data = 'pending' OR status_secondary_data = 'rejected' THEN 'waiting_update' ELSE status_secondary_data END)
+            UPDATE nasabah SET (status_primary_data, status_secondary_data) = (CASE WHEN status_primary_data = 'pending' OR status_primary_data = 'rejected' THEN 'waiting_update' ELSE status_primary_data END, CASE WHEN status_secondary_data = 'pending' OR status_secondary_data = 'rejected' THEN 'waiting_update' ELSE status_secondary_data END), keterangan = '${keterangan}'
             WHERE id = '${id}'
             `;
             const result = await database.sequelize.query(query, {

@@ -242,6 +242,10 @@ export default (sequelize, DataTypes) => {
     provinsi_ktp: {
       allowNull: true,
       type: DataTypes.STRING
+    },
+    keterangan: {
+      allowNull: true,
+      type: DataTypes.STRING
     }
   }, {
     freezeTableName: true,

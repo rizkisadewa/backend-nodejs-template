@@ -333,12 +333,16 @@ class NasabahController {
                 id
             } = req.params;
 
+            const {
+                keterangan
+            } = req.body;
+
             if (!Number(id)) {
                 resUtil.setError(400, 'id Nasabah harus bernilai angka');
                 return resUtil.send(res);
             }
 
-            const result = await NasabahService.sendRequestData(id);
+            const result = await NasabahService.sendRequestData(id, keterangan);
             resUtil.setSuccess(201, 'Nasabah berhasil diperbarui', result);
 
             return resUtil.send(res);
