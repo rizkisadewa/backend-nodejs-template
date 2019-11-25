@@ -43,7 +43,7 @@ class MasterService {
     static async getProvinsi(provinsi_ktp) {
         try {
             let query = `
-            SELECT id_provinsi
+            SELECT id_propinsi
             FROM provinsi_mstr
             WHERE LOWER(keterangan) LIKE LOWER('%${provinsi_ktp}%')
             `;
