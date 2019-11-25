@@ -199,6 +199,7 @@ class NasabahController {
             const files = req.files;
 
             primaryData.tgl_lahir = moment(primaryData.tgl_lahir).format('YYYY-MM-DD');
+            primaryData.no_identitas_exp = moment(primaryData.tgl_lahir).add(1000, 'y').format('YYYY-MM-DD'); // set maximum date
 
             const {
                 id
@@ -225,7 +226,6 @@ class NasabahController {
                 primaryData.handphone = primaryData.kode_negara + parseInt(primaryData.handphone).toString();
                 primaryData.foto_ktp = `${files[0].fieldname}/${files[0].originalname}`;
                 primaryData.foto_nasabah_ktp = `${files[1].fieldname}/${files[1].originalname}`;
-                primaryData.no_identitas_exp = moment(primaryData.tgl_lahir).add(1000, 'y').format('YYYY-MM-DD'); // set maximum date
                 delete primaryData.kode_negara;
                 const createdNasabah = await NasabahService.addNasabah(primaryData);
                 resUtil.setSuccess(201, 'Nasabah berhasil ditambahkan', createdNasabah);
