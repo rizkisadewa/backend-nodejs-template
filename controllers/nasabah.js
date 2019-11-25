@@ -172,6 +172,7 @@ class NasabahController {
             result.box.kd_identitas = await MasterService.get(master.kd_identitas());
             result.box.kode_negara = await MasterService.get(master.kode_negara());
             result.box.jenis_tabungan = await MasterService.get(master.jenis_tabungan());
+            result.box.setoran_awal = await MasterService.get(master.setoran_awal());
 
             resUtil.setSuccess(200, 'API Primary Data berhasil ditampilkan', result);
 

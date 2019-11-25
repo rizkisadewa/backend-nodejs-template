@@ -16,7 +16,8 @@ export const master = {
     tujuan,
     warganegara,
     provinsi,
-    kota
+    kota,
+    setoran_awal
 };
 
 function kode_negara() {
@@ -228,6 +229,18 @@ function kota() {
         table_id: 'kota_mstr',
         value_id: 'cityid',
         text_id: 'citynm',
+        param_id: '',
+        param_value: '',
+        sort_id: '',
+        sort_value: ''
+    };
+}
+
+function setoran_awal() {
+    return {
+        table_id: 'setoran_awal_mstr',
+        value_id: 'keterangan',
+        text_id: 'keterangan',
         param_id: '',
         param_value: '',
         sort_id: '',
