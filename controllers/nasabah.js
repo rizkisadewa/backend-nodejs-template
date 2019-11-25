@@ -359,8 +359,19 @@ class NasabahController {
                     body('tgl_lahir').not().isEmpty().withMessage('Tanggal Lahir harus diisi'),
                     body('kode_negara').not().isEmpty().withMessage('Kode Negara harus diisi'),
                     body('handphone').not().isEmpty().withMessage('Nomor Telepon harus diisi'),
-                    body('jenis_tabungan').not().isEmpty().withMessage('Jenis Tabungan harus diisi'),
-                    body('no_kartu').not().isEmpty().withMessage('Nomor Kartu harus diisi'),
+                    body('jenis_tabungan').custom((value, {
+                        req
+                    }) => {
+                        if (!value) {
+                            throw new Error('Jenis Tabugan harus diisi');
+                        }
+
+                        if (value !== '0252' && !req.body.no_kartu) {
+                            throw new Error('Nomor Kartu harus diisi');
+                        }
+
+                        return true;
+                    }),
                     body('setoran_awal').not().isEmpty().withMessage('Setoran Awal harus diisi')
                 ];
             }
