@@ -11,7 +11,7 @@ import {
     functionId,
     trxAcc
 } from '../config/core';
-const curl = new(require('curl-request'))();
+const curl = new(require( 'curl-request' ))();
 
 const resUtil = new ResponseUtil();
 
@@ -321,18 +321,20 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
-            // const response = await axios.get(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`);
+            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`;
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
                 ])
-                .get(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`)
-                .then(res => {
-                    resUtil.setSuccess(200, "OK", res);
+                .get(url)
+                .then(({statusCode, body, headers}) => {
+                    console.log(statusCode, body, headers);
+                    resUtil.setSuccess(statusCode, "OK", body);
                     return resUtil.send(res);
                 })
-                .catch(e => {
-                    resUtil.setSuccess(200, "Error", e);
+                .catch((e) => {
+                    console.log(e);
+                    resUtil.setSuccess(400, "Error", e);
                     return resUtil.send(res);
                 });
             // axios.get(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`)
