@@ -79,7 +79,7 @@ export default (app) => {
     app.get('/api/nasabah', NasabahController.getAllNasabahs);
     app.post('/api/nasabah', NasabahController.addNasabah);
     app.get('/api/nasabah/:id', NasabahController.getNasabah);
-    app.put('/api/nasabah/:id', NasabahController.updateNasabah);
+    app.put('/api/nasabah/:id', AuthController.verifyJwt, NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
     app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
     app.get('/api/nasabah/laporan-pembukaan-rekening/export-preview-page/:tgl_awal/:tgl_akhir', NasabahController.getReportPembukaanRekeningData); // Laporan Pembukaan Rekening Export Preview
