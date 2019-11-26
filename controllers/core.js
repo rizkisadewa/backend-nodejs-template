@@ -283,7 +283,7 @@ class CoreController {
             user
         } = req;
         try {
-            const nasabah = await NasabahService.getNasabahCustom(id);
+            const nasabah = await NasabahService.getNasabah(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.jenis_tabungan.slice(-2) === '52' ? '032' : '021'};USERID=${user.username}`);
             const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
@@ -319,7 +319,7 @@ class CoreController {
             id
         } = req.params;
         try {
-            const nasabah = await NasabahService.getNasabahCustom(id);
+            const nasabah = await NasabahService.getNasabah(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
             const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`;
 
@@ -329,7 +329,7 @@ class CoreController {
                 .get(url)
                 .then(({statusCode, body, headers}) => {
                     console.log(statusCode, body, headers);
-                    resUtil.setSuccess(statusCode, "OK", { header: headers, body: body });
+                    resUtil.setSuccess(statusCode, "OK", body);
                     return resUtil.send(res);
                 })
                 .catch((e) => {
@@ -337,19 +337,6 @@ class CoreController {
                     resUtil.setSuccess(400, "Error", e);
                     return resUtil.send(res);
                 });
-            // axios.get(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`)
-            //     .then(res => {
-            //         resUtil.setSuccess(200, "", res);
-            //         return resUtil.send(res);
-            //     })
-            //     .catch(err => {
-            //         resUtil.setSuccess(200, "", err);
-            //         return resUtil.send(res);
-            //     });
-
-            // resUtil.setSuccess(response.status, response.statusText, response.data);
-            // resUtil.setSuccess(200, `http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`, {});
-            // return resUtil.send(res);
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
