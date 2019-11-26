@@ -190,12 +190,6 @@ class CoreController {
                 }
             });
 
-            if (response.data.statusId === 1) {
-                await NasabahService.updateNasabah(id, {
-                    nocif: response.data.result.CIFID
-                });
-            }
-
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
         } catch (error) {
