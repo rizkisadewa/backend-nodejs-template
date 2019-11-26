@@ -329,7 +329,7 @@ class CoreController {
                 .get(url)
                 .then(({statusCode, body, headers}) => {
                     console.log(statusCode, body, headers);
-                    resUtil.setSuccess(statusCode, "OK", body);
+                    resUtil.setSuccess(statusCode, "OK", { header: headers, body: body });
                     return resUtil.send(res);
                 })
                 .catch((e) => {
