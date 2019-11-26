@@ -4,7 +4,7 @@
   "description": "Backend with Nodejs",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node app.js",
+    "start": "nodemon --http-parser=legacy --exec babel-node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
