@@ -79,7 +79,7 @@ class DisdukController {
                     NAMA: nama_nsb
                 }]
             });
-            const response = await axios.post(balikanUrl, formData, {
+            const response = await axios.post(balikanUrl.store, formData, {
                 headers: {
                     Authorization: `Bearer ${balikanToken}`,
                     'Content-Type': 'application/json'
