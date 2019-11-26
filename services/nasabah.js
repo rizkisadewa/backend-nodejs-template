@@ -71,7 +71,21 @@ class NasabahService {
                 SUBSTRING(handphone, 1, 2) as kode_negara,
                 jtm.keterangan as jenis_tabungan_text,
                 pm.keterangan as pendidikan_text,
-                itm.keterangan as kd_identitas_text
+                itm.keterangan as kd_identitas_text,
+                km.citynm as kota_text,
+                jkm.keterangan as jns_kelamin_text,
+                kam.keterangan as kode_agama_text,
+                wm.keterangan as warganegara_text,
+                pm1.keterangan as provinsi_text,
+                smm.status as sts_nikah_text,
+                sdm.param as sifat_dana_text,
+                pm2.keterangan as penghasilan_text,
+                sm.sumdana as sumdana_text,
+                pm3.keterangan as pekerjaan_text,
+                jm.keterangan as jabatan_text,
+                um.keterangan as usaha_text,
+                hm.keterangan as hubank_text,
+                tm.tujuan as tujuan_text
             FROM
                 nasabah nsb
             LEFT JOIN
@@ -80,8 +94,36 @@ class NasabahService {
                 pendidikan_mstr pm ON pm.id_pendidikan = nsb.pendidikan
             LEFT JOIN
                 identitas_type_mstr itm ON itm.id_identitas::character varying = nsb.kd_identitas
+            LEFT JOIN
+                kota_mstr km ON km.cityid = nsb.kota
+            LEFT JOIN
+                jenis_kelamin_mstr jkm ON jkm.id_kelamin = nsb.jns_kelamin
+            LEFT JOIN
+                kode_agama_mstr kam ON kam.id_agama::character varying = nsb.kode_agama
+            LEFT JOIN
+                warganegara_mstr wm ON wm.id::character varying = nsb.warganegara
+            LEFT JOIN
+                provinsi_mstr pm1 ON pm1.id_propinsi = nsb.provinsi
+            LEFT JOIN
+                status_menikah_mstr smm ON smm.id_menikah::character varying = nsb.sts_nikah
+            LEFT JOIN
+                sifat_dana_mstr sdm ON sdm.id = nsb.sifat_dana
+            LEFT JOIN
+                penghasilan_mstr pm2 ON pm2.id_penghasilan::character varying = nsb.penghasilan
+            LEFT JOIN
+                sumdana_mstr sm ON sm.id = nsb.sumdana
+            LEFT JOIN
+                pekerjaan_mstr pm3 ON pm3.id_pekerjaan = nsb.pekerjaan
+            LEFT JOIN 
+                jabatan_mstr jm ON jm.id_jabatan = nsb.jabatan
+            LEFT JOIN
+                usaha_mstr um ON um.id_usaha::character varying = nsb.usaha
+            LEFT JOIN
+                hubank_mstr hm ON hm.id_hub = nsb.hubank
+            LEFT JOIN
+                tujuan_mstr tm ON tm.id = nsb.tujuan
             WHERE
-                id = '${id}'
+                nsb.id = '${id}'
             `;
             const primaryData = await database.sequelize.query(query, {
                 type: database.Sequelize.QueryTypes.SELECT
