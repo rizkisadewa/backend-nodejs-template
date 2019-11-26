@@ -326,8 +326,10 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
-            console.log(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`);
+            console.log(`[URL_CARD_ACTIVATE]http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`);
             const response = await axios.get(`http://172.31.201.5:49006/?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`);
+            console.log(`[RESPONSE]`);
+            console.log(response);
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
