@@ -96,6 +96,7 @@ export default (app) => {
     app.get('/api/sms/notif-so', AuthController.verifyJwt, SMSController.notifSO);
     app.get('/api/sms/notif-m', AuthController.verifyJwt, SMSController.notifM);
     app.get('/api/sms/notif-n', AuthController.verifyJwt, SMSController.notifN);
+    app.get('/api/sms/notif-approve', AuthController.verifyJwt, SMSController.notifApprove);
 
     //API get Captcha
     app.get('/api/get-captcha', CaptchaController.getCaptcha);
