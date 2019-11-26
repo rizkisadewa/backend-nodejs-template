@@ -623,5 +623,43 @@ class NasabahController {
             return resUtil.send(res);
         }
     }
+
+    static async getNasabahCustom(req, res) {
+        const {
+            id
+        } = req.params;
+
+        if (!Number(id)) {
+            resUtil.setError(400, 'id Nasabah harus bernilai angka');
+            return resUtil.send(res);
+        }
+
+        try {
+            const nasabah = await NasabahService.getNasabahCustom(id);
+
+            if (!nasabah) {
+                resUtil.setError(404, `Nasabah dengan id: ${id} tidak ditemukan`);
+            } else {
+                const file = path.join(path.resolve(), `public/uploads/${nasabah.foto_ktp}`);
+                if (fs.existsSync(file)) {
+                    nasabah.foto_ktp = base64Img.base64Sync(file);
+                } else {
+                    nasabah.foto_ktp = null;
+                }
+                const file2 = path.join(path.resolve(), `public/uploads/${nasabah.foto_nasabah_ktp}`);
+                if (fs.existsSync(file2)) {
+                    nasabah.foto_nasabah_ktp = base64Img.base64Sync(file2);
+                } else {
+                    nasabah.foto_nasabah_ktp = null;
+                }
+                resUtil.setSuccess(200, 'Nasabah berhasil ditampilkan', nasabah);
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
 }
 export default NasabahController;

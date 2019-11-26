@@ -67,7 +67,7 @@ class NasabahService {
         try {
             const query = `
             SELECT
-                *,
+                nsb.*,
                 SUBSTRING(handphone, 1, 2) as kode_negara,
                 jtm.keterangan as jenis_tabungan_text,
                 pm.keterangan as pendidikan_text,
