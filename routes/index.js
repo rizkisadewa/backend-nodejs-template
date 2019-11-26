@@ -10,6 +10,7 @@ import MasterController from '../controllers/master';
 import DisdukController from '../controllers/disduk';
 import SMSController from '../controllers/sms'
 import CaptchaController from '../controllers/captcha';
+import EmailController from '../controllers/email';
 
 export default (app) => {
     // API routes Auth
@@ -98,4 +99,7 @@ export default (app) => {
 
     //API get Captcha
     app.get('/api/get-captcha', CaptchaController.getCaptcha);
+
+    //API send Email
+    app.post('/api/send-email', EmailController.sendEmail);
 };
