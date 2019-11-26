@@ -39,7 +39,7 @@ class EmailController {
                 from: smtp_sender, // Sender address
                 to: emailBodyReq.to,         // List of recipients
                 subject: emailBodyReq.subject, // Subject line
-                text: emailBodyReq.content // Plain text body
+                html: emailBodyReq.content // Plain text body
             };
             
             transport.sendMail(message, function(err, info) {
