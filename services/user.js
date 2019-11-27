@@ -264,6 +264,25 @@ class UserService {
         throw error;
       }
     }
+
+    static async getDashboard(kode_cabang) {
+        try {
+            const query = `
+            SELECT SUM(CASE WHEN nsb.status_primary_data = 'approved' THEN 1 ELSE 0 END) AS total_approved, 
+            SUM(CASE WHEN nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected' THEN 1 ELSE 0 END) AS total_rejected, 
+            SUM(CASE WHEN nsb.status_primary_data = 'pending' OR nsb.status_secondary_data = 'pending' THEN 1 ELSE 0 END) AS total_pending 
+            FROM nasabah nsb 
+            WHERE (nsb.status_primary_data IS NOT NULL OR nsb.status_secondary_data IS NOT NULL) AND nsb.kd_cab = '${kode_cabang}'
+            `;
+            const result = await database.sequelize.query(query, {
+                type: database.Sequelize.QueryTypes.SELECT
+            });
+
+            return result.length > 0 ? result[0] : {};
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default UserService;

@@ -271,6 +271,25 @@ class UserController {
         }
     }
 
+    static async getDashboard(req, res) {
+        try {
+          const {
+            user
+          } = req;
 
+            const dashboard = await UserService.getDashboard(user.kode_cabang);
+
+            if (dashboard) {
+                resUtil.setSuccess(200, 'Data Dashboard berhasil ditampilkan', dashboard);
+            } else {
+                resUtil.setSuccess(200, 'Data Dashboard kosong');
+            }
+
+            return resUtil.send(res);
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
 }
 export default UserController;

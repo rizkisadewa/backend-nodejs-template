@@ -46,6 +46,7 @@ export default (app) => {
     app.delete('/api/user-type/:id', UserTypeController.deleteUserType);
 
     // API routes User
+    app.get('/api/user-dashboard', AuthController.verifyJwt, UserController.getDashboard);
     app.get('/api/user', UserController.getAllUsers);
     app.post('/api/user', upload.any(), UserController.addUser);
     app.post('/api/user/save', upload.any(), UserController.saveUser);
