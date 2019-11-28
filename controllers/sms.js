@@ -162,11 +162,11 @@ class SMSController {
             query
         } = req;
         try {
-            const messageEncode = encodeURIComponent(templateN);
-            const nomor = await NasabahService.getNomor(query.nasabah);
-            const response = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode}&msisdn=${nomor}`);
+            const nasabah = await NasabahService.getNasabah(query.nasabah);
+            const messageEncode = encodeURIComponent(nasabah);
+            const response = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode}&msisdn=${nasabah.handphone}`);
 
-            resUtil.setSuccess(response.status, `Kirim sms ke nomor: ${nomor}`, response.data);
+            resUtil.setSuccess(response.status, `Kirim sms ke nomor: ${nasabah.handphone}`, response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
