@@ -114,7 +114,7 @@ class NasabahService {
                 sumdana_mstr sm ON sm.id = nsb.sumdana
             LEFT JOIN
                 pekerjaan_mstr pm3 ON pm3.id_pekerjaan = nsb.pekerjaan
-            LEFT JOIN 
+            LEFT JOIN
                 jabatan_mstr jm ON jm.id_jabatan = nsb.jabatan
             LEFT JOIN
                 usaha_mstr um ON um.id_usaha::character varying = nsb.usaha
