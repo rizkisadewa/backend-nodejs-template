@@ -188,12 +188,14 @@ class NasabahService {
             } else if (status == "rejected") {
                 sql_condition += `\nWHERE nsb.status_primary_data = 'rejected' OR nsb.status_secondary_data = 'rejected'`;
             } else if (status == "pembukaan_rekening") {
-                sql_condition += `\nWHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data = 'approved'`;
+                sql_condition += `\nWHERE nsb.status_primary_data = 'approved' AND nsb.primary_data_keterangan = 'approved' AND nsb.status_secondary_data = 'approved' AND nsb.secondary_data_keterangan = 'approved'`;
             }
 
             sql_condition += ` AND nsb.kd_cab = '${kode_cabang}'`;
 
-            query = query + sql_condition;
+            if(status !== "pembukaan_rekening"){
+              query = query + sql_condition;
+            }
 
             //pagination
             let limitation = ``;
