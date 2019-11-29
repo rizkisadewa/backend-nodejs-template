@@ -23,5 +23,5 @@ export const functionId = {
   createTabungan: '004',
   cardActivate: '006'
 };
-const accNumber = '5410010001';
+const accNumber = '2090747001';
 export const trxAcc = '19' + accNumber + '360';
