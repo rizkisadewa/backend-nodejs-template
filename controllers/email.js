@@ -66,11 +66,8 @@ class EmailController {
     }
 
     static async notifN(req, res) {
-        const {
-            query
-        } = req;
+        const nasabah = req.query;
         try {
-            const nasabah = await NasabahService.getNasabah(query.nasabah);
             const body = encodeURIComponent(emailNasabah(nasabah));
             let transport = nodeMailer.createTransport({
                 host: smtp_server,
