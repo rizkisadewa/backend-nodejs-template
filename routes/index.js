@@ -104,4 +104,5 @@ export default (app) => {
 
     //API send Email
     app.post('/api/send-email', EmailController.sendEmail);
+    app.get('/api/email/notifN', AuthController.verifyJwt, EmailController.notifN);
 };
