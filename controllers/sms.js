@@ -10,7 +10,7 @@ import {
     serviceId,
     templateSO,
     templateM,
-    templateN
+    smsNasabah
 } from '../config/sms';
 import UserService from '../services/user';
 import NasabahService from '../services/nasabah';
@@ -163,7 +163,7 @@ class SMSController {
         } = req;
         try {
             const nasabah = await NasabahService.getNasabah(query.nasabah);
-            const messageEncode = encodeURIComponent(nasabah);
+            const messageEncode = encodeURIComponent(smsNasabah(nasabah));
             const response = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode}&msisdn=${nasabah.handphone}`);
 
             resUtil.setSuccess(response.status, `Kirim sms ke nomor: ${nasabah.handphone}`, response.data);
