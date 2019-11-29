@@ -284,7 +284,8 @@ class CoreController {
         } = req;
         try {
             const nasabah = await NasabahService.getNasabah(id);
-            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.jenis_tabungan.slice(-2) === '52' ? '032' : '021'};USERID=${user.username}`);
+            // const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.jenis_tabungan.slice(-2)};USERID=${user.username}`);
+            const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};APPLID=02;PRODID=${nasabah.jenis_tabungan.slice(-2)};SVGTYPE=${nasabah.jenis_tabungan.slice(-2) === '52' ? '021' : '021'};USERID=${user.username}`); // Hardcode
             const response = await axios.get(`${coreUrl.v1.set}?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.createTabungan}&input=${body}`);
 
             if (response.data.STATUS === 1) {
