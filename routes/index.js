@@ -46,16 +46,22 @@ export default (app) => {
     app.delete('/api/user-type/:id', UserTypeController.deleteUserType);
 
     // API routes User
+    // Custom routes get
     app.get('/api/user-dashboard', AuthController.verifyJwt, UserController.getDashboard);
-    app.get('/api/user', UserController.getAllUsers);
-    app.post('/api/user', upload.any(), UserController.addUser);
-    app.post('/api/user/save', upload.any(), UserController.saveUser);
-    app.get('/api/user/:id', UserController.getUser);
-    app.put('/api/user/:id', UserController.updateUser);
-    app.delete('/api/user/:id', UserController.deleteUser);
     app.get('/api/user/custom/:id', UserController.getUserCustom);
     app.get('/api/all-user/custom', UserController.getAllUsersCustom);
     app.get('/api/user-profile/:username', UserController.getUserProfile);
+
+    // Custom routes post
+    app.post('/api/user/save', upload.any(), UserController.saveUser);
+    app.post('/api/user/change-password/:id', AuthController.verifyJwt, UserController.changePassword);
+
+    // Normal routes
+    app.get('/api/user', UserController.getAllUsers);
+    app.post('/api/user', upload.any(), UserController.addUser);
+    app.get('/api/user/:id', UserController.getUser);
+    app.put('/api/user/:id', UserController.updateUser);
+    app.delete('/api/user/:id', UserController.deleteUser);
 
     // API routes Nasabah
     // Custom routes get
