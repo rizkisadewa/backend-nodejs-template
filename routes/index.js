@@ -27,6 +27,7 @@ export default (app) => {
     app.post('/api/core/create-cif-perorangan/:id', AuthController.verifyJwt, CoreController.createCIFPerorangan);
     app.post('/api/core/trx/:id', AuthController.verifyJwt, CoreController.trx);
     app.get('/api/core/inquiry-cif', AuthController.verifyJwt, CoreController.inquiryCIF);
+    app.get('/api/core/inquiry-card', AuthController.verifyJwt, CoreController.inquiryCard);
     app.get('/api/core/update-cif/:id', AuthController.verifyJwt, CoreController.updateCIF);
     app.get('/api/core/create-tabungan/:id', AuthController.verifyJwt, CoreController.createTabungan);
     app.get('/api/core/card-activate/:id', AuthController.verifyJwt, CoreController.cardActivate);

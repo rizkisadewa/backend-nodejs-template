@@ -21,7 +21,9 @@ export const functionId = {
   createCIF: '002',
   updateCIF: '003',
   createTabungan: '004',
-  cardActivate: '006'
+  inquiryTabungan: '005',
+  cardActivate: '006',
+  inquiryCard: '007'
 };
 const accNumber = '2090747001';
 export const trxAcc = '19' + accNumber + '360';

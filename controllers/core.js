@@ -356,5 +356,46 @@ class CoreController {
             console.log(error.config);
         }
     }
+
+    static async inquiryCard(req, res) {
+        const {
+            cardno
+        } = req.query;
+        try {
+            const body = encodeURIComponent(`CARDNO=${cardno}`);
+            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`;
+
+            curl.setHeaders([
+                    'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
+                ])
+                .get(url)
+                .then(({statusCode, body, headers}) => {
+                    console.log(statusCode, body, headers);
+                    resUtil.setSuccess(statusCode, "OK", body);
+                    return resUtil.send(res);
+                })
+                .catch((e) => {
+                    console.log(e);
+                    resUtil.setSuccess(400, "Error", e);
+                    return resUtil.send(res);
+                });
+        } catch (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                resUtil.setError(error.response.status, error.response.data);
+                return resUtil.send(res);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
+        }
+    }
 }
 export default CoreController;
