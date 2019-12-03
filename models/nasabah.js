@@ -246,7 +246,15 @@ export default (sequelize, DataTypes) => {
     keterangan: {
       allowNull: true,
       type: DataTypes.STRING
-    }
+    },
+    nomor_buku_tabungan: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    keterangan_buku_tabungan: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
   }, {
     freezeTableName: true,
     timestamps: false

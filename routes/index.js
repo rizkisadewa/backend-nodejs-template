@@ -73,7 +73,7 @@ export default (app) => {
     app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek);
     app.get('/api/nasabah-custom/:id', AuthController.verifyJwt, NasabahController.getNasabahCustom);
 
-    // Custon routes post
+    // Custom routes post
     app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, upload.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
@@ -82,6 +82,7 @@ export default (app) => {
     app.post('/api/nasabah/reject-primary/:id', NasabahController.rejectReqNewData);
     app.post('/api/nasabah/approve-secondary/:id', NasabahController.approveReqUpdateData);
     app.post('/api/nasabah/reject-secondary/:id', NasabahController.rejectReqUpdateData);
+    app.post('/api/nasabah/register-buku-tabungan/:id', NasabahController.registerBukTabData);
 
     // Normal routes
     app.get('/api/nasabah', NasabahController.getAllNasabahs);
