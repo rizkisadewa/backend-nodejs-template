@@ -8,6 +8,7 @@ import UploadController from '../controllers/upload';
 import upload from '../utils/upload';
 import MasterController from '../controllers/master';
 import DisdukController from '../controllers/disduk';
+import DisdukLogController from '../controllers/disduk-log';
 import SMSController from '../controllers/sms'
 import CaptchaController from '../controllers/captcha';
 import EmailController from '../controllers/email';
@@ -22,6 +23,13 @@ export default (app) => {
     // API routes Disduk
     app.post('/api/disduk/call-nik/:nik', AuthController.verifyJwt, DisdukController.callNIK);
     app.post('/api/disduk/data-balikan', AuthController.verifyJwt, DisdukController.dataBalikan);
+
+    // API routes Disduk Log
+    app.get('/api/disduk-log', DisdukLogController.getAllDisdukLogs);
+    app.post('/api/disduk-log', DisdukLogController.addDisdukLog);
+    app.get('/api/disduk-log/:id', DisdukLogController.getDisdukLog);
+    app.put('/api/disduk-log/:id', DisdukLogController.updateDisdukLog);
+    app.delete('/api/disduk-log/:id', DisdukLogController.deleteDisdukLog);
 
     // API routes Core
     app.post('/api/core/create-cif-perorangan/:id', AuthController.verifyJwt, CoreController.createCIFPerorangan);
@@ -113,4 +121,5 @@ export default (app) => {
     //API send Email
     app.post('/api/send-email', EmailController.sendEmail);
     app.get('/api/email/notifN', AuthController.verifyJwt, EmailController.notifN);
+
 };

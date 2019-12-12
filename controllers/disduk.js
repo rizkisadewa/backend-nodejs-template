@@ -12,6 +12,7 @@ import {
     idLembaga,
     namaLembaga
 } from '../config/disduk';
+const requestIp = require('request-ip');
 
 const resUtil = new ResponseUtil();
 
@@ -20,18 +21,23 @@ class DisdukController {
         const {
             nik
         } = req.params;
+        const ip = requestIp.getClientIp(req);
+        const clientIp = req.connection.remoteAddress;
 
         if (!Number(nik)) {
-            resUtil.setError(400, 'NIK harus bernilai angka');
+            resUtil.setError(error.response.status, 'NIK harus bernilai angka');
             return resUtil.send(res);
         }
 
         try {
+
+            console.log("Server IP : "+ip);
+            console.log("Client IP : "+clientIp);
             const response = await axios.post(nikUrl, {
                 nik: nik,
                 user_id: userId,
                 password: password,
-                IP_USER: userIP
+                IP_USER: clientIp
             }, {
                 headers: {
                     Authorization: `Bearer ${nikToken}`,
@@ -41,6 +47,7 @@ class DisdukController {
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
+            console.log(response.data);
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
