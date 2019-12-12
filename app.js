@@ -12,6 +12,9 @@ const hostname = '127.0.0.1';
 const port = 3001;
 const app = express(); // setup express application
 const server = http.createServer(app);
+const expressip = require('express-ip');
+
+app.use(expressip().getIpInfoMiddleware); // Log client ip
 
 app.use(logger('dev')); // log requests to the console
 
