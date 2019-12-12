@@ -67,6 +67,22 @@ class DisdukController {
         }
     }
 
+    static async getIpClient(req, res){
+        const ip = requestIp.getClientIp(req);
+
+        try{
+          resUtil.setSuccess(200, 'IP Client berhasil ditampilkan');
+          res.send(JSON.stringify(ip));
+        } catch (error) {
+          if (error.errors) {
+              resUtil.setError(400, error.errors[0].message);
+          } else {
+              resUtil.setError(400, error);
+          }
+          return resUtil.send(res);
+        }
+    }
+
     static async dataBalikan(req, res) {
         const {
             nik,

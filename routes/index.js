@@ -23,6 +23,7 @@ export default (app) => {
     // API routes Disduk
     app.post('/api/disduk/call-nik/:nik', AuthController.verifyJwt, DisdukController.callNIK);
     app.post('/api/disduk/data-balikan', AuthController.verifyJwt, DisdukController.dataBalikan);
+    app.get('/api/disduk/get-ip-client', DisdukController.getIpClient);
 
     // API routes Disduk Log
     app.get('/api/disduk-log', DisdukLogController.getAllDisdukLogs);
