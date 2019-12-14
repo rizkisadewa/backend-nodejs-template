@@ -23,7 +23,8 @@ export const functionId = {
   createTabungan: '004',
   inquiryTabungan: '005',
   cardActivate: '006',
-  inquiryCard: '007'
+  inquiryCard: '007',
+  updateCIFPerorangan: '00103'
 };
 const accNumber = '2090747001';
 export const trxAcc = '19' + accNumber + '360';

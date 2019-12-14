@@ -275,6 +275,125 @@ class CoreController {
         }
     }
 
+    static async updateCIFV2(req, res){
+      try{
+        const {
+          id
+        } = req.params;
+        const{
+          user
+        } = req;
+        const nasabah = await NasabahService.getNasabahCustom(id);
+        const date = moment().add(12, 'h');
+        const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
+        const response = await axios.post(coreUrl.v2, {
+          authKey: auth,
+          reqId: functionId.updateCIFPerorangan,
+          txDate: date.format('YYYYMMDD'),
+          txHour: date.format('HHmmss'),
+          userGtw: userGtw.v2,
+          channelId: channel.v2,
+          param: {
+            BRANCHID: nasabah.kd_cab,
+            BRTDT: nasabah.tgl_lahir,
+            NOHP: `+${nasabah.handphone}`,
+            CIFTYPE: 0,
+            FULLNM: nasabah.nama_nsb,
+            SURENM: nasabah.nama_singkat,
+            MOTHRNM: "HARTATI",
+            ALIAS: nasabah.nama_singkat,
+            SEX: 1,
+            RELIGIONID: 1,
+            BRTPLACE: "DUMMY DATA",
+            HOBBY: "DUMMY DATA",
+            POSTDEGREE: "A.Md.",
+            MARRIAGEID: 2,
+            BLOODTYPE: "O",
+            TXTRF: "50,000,000.00",
+            USERID: user.username,
+            AOID: "064",
+            NPWP: "698930484444000",
+            TXCASH: nasabah.setoran_awal,
+            TYPEID: "1",
+            IDNBR: "3204280104890003",
+            EXPDT: nasabah.no_identitas_exp,
+            LASTEDUID: "0103",
+            INSURED: 0,
+            HOMEID: 2,
+            BANKREL: "9900",
+            OWNID: "9000",
+            TBRINVEST: 0,
+            TBREDU: 0,
+            TBRBUSS: 1,
+            TBRCAPITAL: 0,
+            TBROTHER: "",
+            TXMAIN: 1,
+            TAXID: 2,
+            NIP: "201103379",
+            MAINSALID: "01",
+            ADDR: "DUMMY DATA",
+            RT: "02",
+            RW: "13",
+            KELNM: "DUMMY DATA",
+            KECNM: "DUMMY DATA",
+            PROVID: "01",
+            CITYID: "0111",
+            POSTALCD: "40394",
+            COUNTRYID: "ID",
+            AREACODE: "022",
+            PHONENBR: "750750750",
+            NOFAX: "02200200000",
+            JOBID: "007",
+            DTSTARTJOB: "2014-01-01",
+            FUNCJOB: "3",
+            NOTEFUNC: "DUMMY DATA",
+            OTHERINFO: "01",
+            STSJOB: 1,
+            BUSSID: "9990",
+            NOTEBUS: "DUMMY DATA",
+            NMJOB: "03",
+            COMNMJOB: "DUMMY DATA",
+            NOTECOMNM: "DUMMY DATA",
+            ADDRJOB: "DUMMY DATA",
+            POSTALCODEJOB: "00100",
+            LOCJOB: "1",
+            EMAILJOB: "xx@xx.com",
+            NOTELPJOB: "021-1234567"
+          }
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.data.statusId === 1) {
+            await NasabahService.updateNasabah(id, {
+                nocif: response.data.result.CIFID
+            });
+        }
+
+        resUtil.setSuccess(response.status, response.statusText, response.data);
+        return resUtil.send(res);
+
+      } catch (error){
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            resUtil.setError(error.response.status, error.response.data);
+            return resUtil.send(res);
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+        }
+        console.log(error.config);
+      }
+    }
+
     static async createTabungan(req, res) {
         const {
             id
