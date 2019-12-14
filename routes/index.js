@@ -40,7 +40,7 @@ export default (app) => {
     app.get('/api/core/update-cif/:id', AuthController.verifyJwt, CoreController.updateCIF);
     app.get('/api/core/create-tabungan/:id', AuthController.verifyJwt, CoreController.createTabungan);
     app.get('/api/core/card-activate/:id', AuthController.verifyJwt, CoreController.cardActivate);
-    app.get('/api/core/update-cif-v2/:id', AuthController.verifyJwt, CoreController.updateCIFV2);
+    // app.get('/api/core/update-cif-v2/:id', AuthController.verifyJwt, CoreController.updateCIFV2);
 
     // API routes Cabang
     app.get('/api/cabang', CabangController.getAllCabangs);

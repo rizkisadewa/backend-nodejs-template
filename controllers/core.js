@@ -294,7 +294,7 @@ class CoreController {
           userGtw: userGtw.v2,
           channelId: channel.v2,
           param: {
-            CIFID: nasabah.nocif
+            CIFID: nasabah.nocif,
             BRANCHID: nasabah.kd_cab,
             BRTDT: nasabah.tgl_lahir,
             NOHP: `+${nasabah.handphone}`,
