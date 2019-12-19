@@ -17,14 +17,15 @@ export const baseUrl = {
 export const functionId = {
   createCIFPerorangan: '00103',
   trx: '00005',
+  createTabunganNew: '00084',
+  updateCIFPerorangan: '00103',
   inquiryCIF: '001',
   createCIF: '002',
   updateCIF: '003',
   createTabungan: '004',
   inquiryTabungan: '005',
   cardActivate: '006',
-  inquiryCard: '007',
-  updateCIFPerorangan: '00103'
+  inquiryCard: '007'
 };
 const accNumber = '2090747001';
 export const trxAcc = '19' + accNumber + '360';
