@@ -426,26 +426,7 @@ class NasabahController {
         } = req;
         try {
             const allNasabah = await NasabahService.getNasabahByStatus(user.kode_cabang, status, page);
-            if (status === 'completed' || status === 'approved') {
-                allNasabah.forEach(row => {
-                    const created = `${row.date} ${row.time1}`;
-                    if (row.date2) {
-                        console.log(`---- Start ${row.nama_nsb} ----`);
-                        console.log(`created: ${created}`);
-                        const newData = `${row.date2} ${row.time2}`;
-                        console.log(`d_new_approve: ${newData}`);
-                        // const d2 = moment.duration(moment(created).diff(moment(newData)));
-                        // console.log(d2.humanize());
-                        if (row.date3) {
-                            const updateData = `${row.date3} ${row.time3}`;
-                            // const d3 = moment.duration(moment(newData).diff(moment(updateData)));
-                            // console.log(d3.humanize());
-                            console.log(`d_update_approve: ${updateData}`);
-                        }
-                        console.log(`---- End ----`);
-                    }
-                });
-            }
+
             if (allNasabah.rows.length > 0) {
                 resUtil.setSuccess(200, 'Data Nasabah berhasil ditampilkan', allNasabah);
             } else {
