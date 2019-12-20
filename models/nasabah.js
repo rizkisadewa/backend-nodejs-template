@@ -255,6 +255,22 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
+    date2: {
+      allowNull: true,
+      type: DataTypes.DATEONLY
+    },
+    time2: {
+      allowNull: true,
+      type: DataTypes.TIME
+    },
+    date3: {
+      allowNull: true,
+      type: DataTypes.DATEONLY
+    },
+    time3: {
+      allowNull: true,
+      type: DataTypes.TIME
+    }
   }, {
     freezeTableName: true,
     timestamps: false

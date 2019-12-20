@@ -442,6 +442,8 @@ class NasabahController {
 
     static async approveReqNewData(req, res) {
         const alteredNasabah = emptyStringsToNull(req.body);
+        alteredNasabah.date2 = moment().format('YYYY-MM-DD');
+        alteredNasabah.time2 = moment().format('HH:mm:ss');
 
         const {
             id
@@ -540,6 +542,8 @@ class NasabahController {
 
     static async approveReqUpdateData(req, res) {
         const alteredNasabah = emptyStringsToNull(req.body);
+        alteredNasabah.date3 = moment().format('YYYY-MM-DD');
+        alteredNasabah.time3 = moment().format('HH:mm:ss');
 
         const {
             id
