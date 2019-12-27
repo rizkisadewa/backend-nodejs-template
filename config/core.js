@@ -7,7 +7,7 @@ export const gateway = '172.31.253.254';
 export const channel = {
   v1: '6',
   v2: '34',
-  v3: '27',
+  v3: '27'
 };
 export const baseUrl = {
   v1: {
