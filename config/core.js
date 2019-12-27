@@ -1,11 +1,13 @@
 export const userGtw = {
   v1: 'GTW06',
-  v2: 'fosgw'
+  v2: 'jmlgw',
+  v3: 'fosgw'
 };
 export const gateway = '172.31.253.254';
 export const channel = {
   v1: '6',
-  v2: '27'
+  v2: '34',
+  v3: '27',
 };
 export const baseUrl = {
   v1: {
