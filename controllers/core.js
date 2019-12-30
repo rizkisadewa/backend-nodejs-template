@@ -308,7 +308,7 @@ class CoreController {
                     BRTPLACE: nasabah.tempat_lahir,
                     HOBBY: nasabah.hobby,
                     POSTDEGREE: nasabah.pendidikan_text,
-                    MARRIAGEID: paeseInt(nasabah.sts_nikah),
+                    MARRIAGEID: parseInt(nasabah.sts_nikah),
                     BLOODTYPE: "O",
                     TXTRF: nasabah.rata_akt_daily,
                     USERID: user.username,
