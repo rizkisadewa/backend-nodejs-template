@@ -95,11 +95,13 @@ class SMSController {
         try {
             const messageEncode1 = encodeURIComponent(templateM);
             const nomor1 = await UserService.getNomor(query.kode);
-            const response1 = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode1}&msisdn=${nomor1}`);
+            //const response1 = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode1}&msisdn=${nomor1}`);
+            const response1 = await axios.get(`${newUrl}.json?username=${username}&password=${password}&sender=${senderEncode}&msisdn=${nomor1}&message=${messageEncode1}`);
 
             const messageEncode2 = encodeURIComponent(templateN);
             const nomor2 = await NasabahService.getNomor(query.nasabah);
-            const response2 = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode2}&msisdn=${nomor2}`);
+            // const response2 = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode2}&msisdn=${nomor2}`);
+            const response2 = await axios.get(`${newUrl}.json?username=${username}&password=${password}&sender=${senderEncode}&msisdn=${nomor2}&message=${messageEncode2}`);
 
             if (response1.data.code === 1 && response2.data.code === 1) {
                 resUtil.setSuccess(200, `Kirim sms ke nomor Marketing: ${nomor1} & nomor Nasabah: ${nomor2}`);
