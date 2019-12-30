@@ -3,7 +3,7 @@ export const userGtw = {
   v2: 'jmlgw',
   v3: 'fosgw'
 };
-export const gateway = '172.133.17.212';
+export const gateway = '172.31.253.254';
 export const channel = {
   v1: '6',
   v2: '34',
