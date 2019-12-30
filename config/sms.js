@@ -12,3 +12,8 @@ export function smsNasabah(param) {
     }).format(param.setoran_awal);
     return `Yth.${param.nama_nsb} Kartu Maslahah Anda telah aktif dengan No Rekening ${param.newrek} dan Saldo ${rupiah} Terima kasih, Salam Maslahah.`;
 }
+
+export const newUrl = 'https://api2.smsblast.id/SmsblastGateway/api/sendsms';
+export const username = 'maslahah';
+export const password = 'Bjbs2017';
+export const sender = 'BJBSYARIAH';
