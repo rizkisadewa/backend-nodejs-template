@@ -536,7 +536,7 @@ class CoreController {
         } = req.query;
         try {
             const body = encodeURIComponent(`CARDNO=${cardno}`);
-            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`;
+            const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`;
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
