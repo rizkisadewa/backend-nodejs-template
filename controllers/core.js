@@ -340,7 +340,7 @@ class CoreController {
                     PROVID: nasabah.provinsi,
                     CITYID: nasabah.kota,
                     POSTALCD: nasabah.kode_pos,
-                    COUNTRYID: nasabah.statevs,
+                    COUNTRYID: "ID",
                     AREACODE: nasabah.kode_area,
                     PHONENBR: nasabah.telp_rumah,
                     NOFAX: "99999999",
