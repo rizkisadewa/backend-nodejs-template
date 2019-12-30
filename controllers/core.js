@@ -308,7 +308,7 @@ class CoreController {
                     BRTPLACE: nasabah.tempat_lahir,
                     HOBBY: nasabah.hobby,
                     POSTDEGREE: nasabah.pendidikan_text,
-                    MARRIAGEID: nasabah.sts_nikah,
+                    MARRIAGEID: paeseInt(nasabah.sts_nikah),
                     BLOODTYPE: "O",
                     TXTRF: nasabah.rata_akt_daily,
                     USERID: user.username,
@@ -491,7 +491,7 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabah(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
-            const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`;
+            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`;
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
@@ -536,7 +536,7 @@ class CoreController {
         } = req.query;
         try {
             const body = encodeURIComponent(`CARDNO=${cardno}`);
-            const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`;
+            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`;
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
