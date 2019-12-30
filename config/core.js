@@ -11,10 +11,10 @@ export const channel = {
 };
 export const baseUrl = {
   v1: {
-    set: 'http://172.112.17.20:7070/Gateway/gateway/services/setDataExt',
-    get: 'http://172.112.17.20:7070/Gateway/gateway/services/getDataExt'
+    set: 'http://172.112.17.102:7070/Gateway/gateway/services/setDataExt',
+    get: 'http://172.112.17.102:7070/Gateway/gateway/services/getDataExt'
   },
-  v2: 'http://172.112.17.20:7070/Gateway/service/v2/postData'
+  v2: 'http://172.112.17.102:7070/Gateway/service/v2/postData'
 };
 export const functionId = {
   createCIFPerorangan: '00103',
