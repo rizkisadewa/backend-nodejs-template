@@ -191,10 +191,11 @@ class NasabahService {
                 sql_condition += `\nWHERE nsb.status_primary_data = 'approved' AND nsb.primary_data_keterangan = 'approved' AND nsb.status_secondary_data = 'approved' AND nsb.secondary_data_keterangan = 'approved'`;
             }
 
-            sql_condition += ` AND nsb.kd_cab = '${kode_cabang}'`;
+            query = query + sql_condition;
+            const cabang_condition = sql_condition + ` AND nsb.kd_cab = '${kode_cabang}'`;
 
             if(status !== "pembukaan_rekening"){
-              query = query + sql_condition;
+              query = query + cabang_condition;
             }
 
             //pagination
