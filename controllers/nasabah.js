@@ -359,6 +359,7 @@ class NasabahController {
                     body('kd_identitas').not().isEmpty().withMessage('Kode Identitas harus diisi'),
                     body('no_identitas').not().isEmpty().withMessage('Nomor Kartu Identitas harus diisi'),
                     body('nama_nsb').not().isEmpty().withMessage('Nama Nasabah harus diisi'),
+                    body('nama_nsb').matches('/[!@#$%^&*(),.?":{}|<>]/', 'g').withMessage('Nama Nasabah tidak boleh berisi spesial karakter'),
                     body('nama_singkat').not().isEmpty().withMessage('Nama Singkat harus diisi'),
                     body('tgl_lahir').not().isEmpty().withMessage('Tanggal Lahir harus diisi'),
                     body('kode_negara').not().isEmpty().withMessage('Kode Negara harus diisi'),
