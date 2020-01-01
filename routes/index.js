@@ -82,7 +82,6 @@ export default (app) => {
     app.get('/api/nasabah/primary-data/:id', AuthController.verifyJwt, NasabahController.getPrimaryData);
     app.get('/api/nasabah/secondary-data', AuthController.verifyJwt, NasabahController.getSecondaryData);
     app.get('/api/nasabah/nasabah-by-status', AuthController.verifyJwt, NasabahController.getAllNasabahByStatus);
-    app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek);
     app.get('/api/nasabah-custom/:id', AuthController.verifyJwt, NasabahController.getNasabahCustom);
 
     // Custom routes post
@@ -103,8 +102,8 @@ export default (app) => {
     app.put('/api/nasabah/:id', AuthController.verifyJwt, NasabahController.updateNasabah);
     app.delete('/api/nasabah/:id', NasabahController.deleteNasabah);
     app.get('/api/nasabah/laporan-pembukaan-rekening', NasabahController.getAllNasabahLapPembRek); // Laporan Pembukaan Rekening
-    app.get('/api/nasabah/laporan-pembukaan-rekening/export-preview-page/:tgl_awal/:tgl_akhir', NasabahController.getReportPembukaanRekeningData); // Laporan Pembukaan Rekening Export Preview
-
+    app.get('/api/nasabah/laporan-pembukaan-rekening/export-preview-page/:tgl_awal/:tgl_akhir', NasabahController.getReportPembukaanRekeningData);
+    app.get('/api/nasabah/laporan-pembukaan-rekening/export-preview-page/:tgl_awal/:tgl_akhir/:cabang', NasabahController.getReportPembukaanRekeningDataWithCabang);
 
     // API routes file process
     app.post('/api/uploads', AuthController.verifyJwt, upload.single('image'), UploadController.singleImage);

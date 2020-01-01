@@ -161,13 +161,16 @@ class NasabahService {
                 cbg.kode as kode_kantor_cabang,
                 cbg.nama as kantor_cabang,
                 usr.nama as nama_marketing,
-                usr.username as kode_fo
+                usr.username as kode_fo,
+                jns_tb.keterangan as nama_tabungan
             FROM
                 nasabah nsb
             LEFT JOIN
                 cabang cbg ON cbg.kode = nsb.kd_cab
             LEFT JOIN
-                "user" usr ON usr.kode = nsb.kd_agen`;
+                "user" usr ON usr.kode = nsb.kd_agen
+            LEFT JOIN
+                jenis_tabungan_mstr jns_tb ON jns_tb.id_tabungan = nsb.jenis_tabungan`;
 
             let sql_condition = ``;
             const max_page = 10;
@@ -197,6 +200,9 @@ class NasabahService {
             if(status !== "pembukaan_rekening"){
               query = query + cabang_condition;
             }
+
+            // sorting by column
+            query = query + "ORDER BY nsb.date DESC";
 
             //pagination
             let limitation = ``;
@@ -266,6 +272,47 @@ class NasabahService {
                 public.user usr ON usr.kode = nsb.kd_agen
 
             WHERE nsb.status_primary_data = 'approved' AND nsb.status_secondary_data = 'approved' AND nsb.date >= '${start_date}' AND nsb.date <= '${finish_date}'
+            `;
+
+            const resultReport = await database.sequelize.query(query, {
+                type: database.Sequelize.QueryTypes.SELECT
+            });
+
+            return resultReport;
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getReportPembukaanRekeningDataWithCabang(start_date, finish_date, cabang) {
+        try {
+            const query = `
+            SELECT
+                nsb.*,
+                knm.kode as kode_negara,
+                knm.negara as warganegara,
+                jtm.keterangan as jenis_tabungan,
+                cbg.kode as kode_kantor_cabang,
+                cbg.nama as kantor_cabang,
+                usr.nama as nama_marketing,
+                usr.username as kode_fo
+            FROM
+                nasabah nsb
+            LEFT JOIN
+                kode_negara_mstr knm ON knm.id_negara::character varying = nsb.warganegara
+            LEFT JOIN
+                jenis_tabungan_mstr jtm ON jtm.id_tabungan = nsb.jenis_tabungan
+            FULL JOIN
+                cabang cbg ON cbg.kode = nsb.kd_cab
+            FULL JOIN
+                public.user usr ON usr.kode = nsb.kd_agen
+            WHERE
+                nsb.status_primary_data = 'approved'
+                AND nsb.status_secondary_data = 'approved'
+                AND nsb.date >= '${start_date}'
+                AND nsb.date <= '${finish_date}'
+                AND nsb.kd_cab = '${cabang}'
             `;
 
             const resultReport = await database.sequelize.query(query, {
