@@ -662,6 +662,37 @@ class NasabahController {
         }
     }
 
+    static async getReportPembukaanRekeningDataWithCabang(req, res) {
+        try {
+
+            let result = {};
+
+            const {
+                tgl_awal,
+                tgl_akhir,
+                cabang
+            } = req.params;
+
+            if (tgl_awal && tgl_akhir && cabang) {
+                result.nasabah = await NasabahService.getReportPembukaanRekeningDataWithCabang(tgl_awal, tgl_akhir, cabang);
+                if (Object.keys(result.nasabah).length <= 0) {
+                    resUtil.setError(404, `Report dari tanggal ${tgl_awal} s.d. ${tgl_akhir} di cabang ${cabang} tidak ditemukan`)
+                    return resUtil.send(res);
+                }
+            } else {
+                result.user = req.user
+            }
+
+            resUtil.setSuccess(200, 'API Report Pembukaan Rekening Export View berhasil ditampilkan', result);
+
+            return resUtil.send(res);
+
+        } catch (error) {
+            resUtil.setError(400, error);
+            return resUtil.send(res);
+        }
+    }
+
     static async getNasabahCustom(req, res) {
         const {
             id
