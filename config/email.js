@@ -1,4 +1,4 @@
-export const smtp_server = 'email.bjbs.co.id';
+export const smtp_server = '10.30.246.245'; // 'email.bjbs.co.id';
 export const smtp_auth_username = 'tabungan.ib.maslahah@bjbs.co.id';
 export const smtp_auth_password = 'Bjbs2019!';
 export const smtp_port = '25';
