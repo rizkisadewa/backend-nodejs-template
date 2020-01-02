@@ -365,7 +365,7 @@ class NasabahController {
                             throw new Error('Nama Nasabah harus diisi');
                         }
 
-                        if (value.match(/[!@#$%^&*(),.?":{}|<>]/g)) {
+                        if (value.match(/[!@#$%^&*(),.?":{}|<>]/)) {
                             throw new Error('Nama Nasabah tidak boleh berisi spesial karakter');
                         }
 
