@@ -85,8 +85,8 @@ export default (app) => {
     app.get('/api/nasabah-custom/:id', AuthController.verifyJwt, NasabahController.getNasabahCustom);
 
     // Custom routes post
-    app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, uploadCustom.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
-    app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, uploadCustom.any(), NasabahController.validate('primary-data'), NasabahController.savePrimaryData);
+    app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, uploadCustom.any(), NasabahController.savePrimaryData);
+    app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, uploadCustom.any(), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
     app.post('/api/nasabah/send-request-data/:id', AuthController.verifyJwt, NasabahController.sendRequestData);
     app.post('/api/nasabah/approve-primary/:id', NasabahController.approveReqNewData);

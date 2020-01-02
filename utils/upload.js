@@ -16,12 +16,9 @@ const local = multer.diskStorage({
 
 const custom = customStorage({
     destination: function (req, file, cb) {
-        const pathToFile = path.join(path.resolve(), `public/uploads/${file.fieldname}`);
+        const pathToFile = path.join(path.resolve(), `public\\uploads\\${file.fieldname}\\`);
         fs.mkdirsSync(pathToFile);
-        cb(null, pathToFile);
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, path.join(pathToFile, file.originalname));
     }
 });
 

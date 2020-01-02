@@ -195,14 +195,14 @@ class NasabahService {
             }
 
             query = query + sql_condition;
-            const cabang_condition = sql_condition + ` AND nsb.kd_cab = '${kode_cabang}'`;
+            const cabang_condition = ` AND nsb.kd_cab = '${kode_cabang}'`;
 
             if(status !== "pembukaan_rekening"){
               query = query + cabang_condition;
             }
 
             // sorting by column
-            query = query + "ORDER BY nsb.date DESC";
+            query = query + " ORDER BY nsb.date DESC";
 
             //pagination
             let limitation = ``;
