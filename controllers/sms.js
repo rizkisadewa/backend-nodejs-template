@@ -164,8 +164,11 @@ class SMSController {
     }
 
     static async notifN(req, res) {
-        const nasabah = req.query;
+        const {
+            id
+        } = req.query;
         try {
+            const nasabah = await NasabahService.getNasabah(id);
             const messageEncode = encodeURIComponent(smsNasabah(nasabah));
             // const response = await axios.get(`${baseUrl}?event_id=${eventId}&service_id=${serviceId}&channel_id=${channelId}&message=${messageEncode}&msisdn=${nasabah.handphone}`);
             const response = await axios.get(`${newUrl}.json?username=${username}&password=${password}&sender=${sender}&msisdn=${nasabah.handphone}&message=${messageEncode}`);
