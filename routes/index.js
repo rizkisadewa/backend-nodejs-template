@@ -66,12 +66,12 @@ export default (app) => {
     app.get('/api/user-profile/:username', UserController.getUserProfile);
 
     // Custom routes post
-    app.post('/api/user/save', uploadCustom.any(), UserController.saveUser);
+    app.post('/api/user/save', upload.any(), UserController.saveUser);
     app.post('/api/user/change-password/:id', AuthController.verifyJwt, UserController.changePassword);
 
     // Normal routes
     app.get('/api/user', UserController.getAllUsers);
-    app.post('/api/user', uploadCustom.any(), UserController.addUser);
+    app.post('/api/user', upload.any(), UserController.addUser);
     app.get('/api/user/:id', UserController.getUser);
     app.put('/api/user/:id', UserController.updateUser);
     app.delete('/api/user/:id', UserController.deleteUser);
@@ -85,8 +85,8 @@ export default (app) => {
     app.get('/api/nasabah-custom/:id', AuthController.verifyJwt, NasabahController.getNasabahCustom);
 
     // Custom routes post
-    app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, uploadCustom.any(), NasabahController.savePrimaryData);
-    app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, uploadCustom.any(), NasabahController.savePrimaryData);
+    app.post('/api/nasabah/save-primary-data', AuthController.verifyJwt, upload.any(), NasabahController.savePrimaryData);
+    app.post('/api/nasabah/save-primary-data/:id', AuthController.verifyJwt, upload.any(), NasabahController.savePrimaryData);
     app.post('/api/nasabah/save-secondary-data/:id', AuthController.verifyJwt, NasabahController.validate('secondary-data'), NasabahController.saveSecondaryData);
     app.post('/api/nasabah/send-request-data/:id', AuthController.verifyJwt, NasabahController.sendRequestData);
     app.post('/api/nasabah/approve-primary/:id', NasabahController.approveReqNewData);
