@@ -5,7 +5,7 @@ import UserTypeController from '../controllers/user-type';
 import UserController from '../controllers/user';
 import NasabahController from '../controllers/nasabah';
 import UploadController from '../controllers/upload';
-import { upload, uploadCustom } from '../utils/upload';
+import { upload } from '../utils/upload';
 import MasterController from '../controllers/master';
 import DisdukController from '../controllers/disduk';
 import DisdukLogController from '../controllers/disduk-log';
