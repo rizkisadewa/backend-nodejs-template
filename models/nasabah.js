@@ -12,6 +12,10 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
+    kd_operator: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     nama_nsb: {
       allowNull: true,
       type: DataTypes.STRING
@@ -277,6 +281,7 @@ export default (sequelize, DataTypes) => {
   });
   nasabah.associate = function (models) {
     // associations can be defined here
+
   };
   return nasabah;
 };

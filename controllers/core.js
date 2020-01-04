@@ -161,7 +161,7 @@ class CoreController {
                 nbrOfAcc: "2",
                 totalAmount: nasabah.setoran_awal,
                 prosesId: "prc01",
-                userId: user.username,
+                userId: nasabah.kd_operator,
                 spvId: "",
                 revSts: "0",
                 txType: "O",
@@ -283,7 +283,39 @@ class CoreController {
             const {
                 user
             } = req;
+
             const nasabah = await NasabahService.getNasabahCustom(id);
+
+            // Tujuan
+            const tujuan = {
+              TBRINVEST: 0,
+              TBREDU: 0,
+              TBRBUSS: 0,
+              TBRCAPITAL: 0
+            }
+
+            if (nasabah.tujuan === "1"){
+              tujuan.TBRINVEST = 1;
+              tujuan.TBREDU = 0;
+              tujuan.TBRBUSS = 0;
+              tujuan.TBRCAPITAL = 0;
+            } else if (nasabah.tujuan === "2") {
+              tujuan.TBRINVEST = 0;
+              tujuan.TBREDU = 1;
+              tujuan.TBRBUSS = 0;
+              tujuan.TBRCAPITAL = 0;
+            } else if (nasabah.tujuan === "3") {
+              tujuan.TBRINVEST = 0;
+              tujuan.TBREDU = 0;
+              tujuan.TBRBUSS = 1;
+              tujuan.TBRCAPITAL = 0;
+            } else if (nasabah.tujuan === "4") {
+              tujuan.TBRINVEST = 0;
+              tujuan.TBREDU = 0;
+              tujuan.TBRBUSS = 0;
+              tujuan.TBRCAPITAL = 1;
+            }
+
             const date = moment().add(12, 'h');
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.updateCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
@@ -323,12 +355,12 @@ class CoreController {
                     HOMEID: 2,
                     BANKREL: nasabah.hubank,
                     OWNID: "9000",
-                    TBRINVEST: 0,
-                    TBREDU: 0,
-                    TBRBUSS: 1,
-                    TBRCAPITAL: 0,
+                    TBRINVEST: tujuan.TBRINVEST,
+                    TBREDU: tujuan.TBREDU,
+                    TBRBUSS: tujuan.TBRBUSS,
+                    TBRCAPITAL: tujuan.TBRCAPITAL,
                     TBROTHER: "",
-                    TXMAIN: 1,
+                    TXMAIN: parseInt(nasabah.penghasilan),
                     TAXID: 2,
                     NIP: "9999999",
                     MAINSALID: "01",
@@ -491,8 +523,8 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabah(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
-            // const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip dev
-            const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip production
+            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip dev
+            // const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip production
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
@@ -537,8 +569,8 @@ class CoreController {
         } = req.query;
         try {
             const body = encodeURIComponent(`CARDNO=${cardno}`);
-            // const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip development
-            const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip development
+            const url = `http://172.31.201.5:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip development
+            // const url = `http://172.133.17.212:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip development
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
