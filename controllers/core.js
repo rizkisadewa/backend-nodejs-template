@@ -363,7 +363,7 @@ class CoreController {
                     TXMAIN: parseInt(nasabah.penghasilan),
                     TAXID: 2,
                     NIP: "9999999",
-                    MAINSALID: "01",
+                    MAINSALID: nasabah.sumdana,
                     ADDR: nasabah.alamat_ktp,
                     RT: nasabah.rt,
                     RW: nasabah.rw,
