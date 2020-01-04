@@ -3,12 +3,14 @@ export const userGtw = {
   v2: 'jmlgw',
   v3: 'fosgw'
 };
-export const gateway = '172.31.253.254';
+export const gateway = '172.31.253.254'; // ip dev. in remark // '172.31.251.245'
 export const channel = {
   v1: '6',
   v2: '34',
   v3: '27'
 };
+
+// ip dev : 172.112.17.20
 export const baseUrl = {
   v1: {
     set: 'http://172.112.17.20:7070/Gateway/gateway/services/setDataExt',
@@ -16,6 +18,8 @@ export const baseUrl = {
   },
   v2: 'http://172.112.17.20:7070/Gateway/service/v2/postData'
 };
+
+
 export const functionId = {
   createCIFPerorangan: '00103',
   trx: '00005',

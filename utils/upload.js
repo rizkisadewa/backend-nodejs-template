@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import multer from 'multer';
-import customStorage from './custom-storage';
+// import customStorage from './custom-storage';
 
 const local = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -14,13 +14,13 @@ const local = multer.diskStorage({
     }
 });
 
-const custom = customStorage({
-    destination: function (req, file, cb) {
-        const pathToFile = path.join(path.resolve(), `public\\uploads\\${file.fieldname}\\`);
-        fs.mkdirsSync(pathToFile);
-        cb(null, path.join(pathToFile, file.originalname));
-    }
-});
+// const custom = customStorage({
+//     destination: function (req, file, cb) {
+//         const pathToFile = path.join(path.resolve(), `public\\uploads\\${file.fieldname}\\`);
+//         fs.mkdirsSync(pathToFile);
+//         cb(null, path.join(pathToFile, file.originalname));
+//     }
+// });
 
 const imageFilter = function (req, file, cb) {
     // accept image only
@@ -37,7 +37,7 @@ export const upload = multer({
     fileFilter: imageFilter
 });
 
-export const uploadCustom = multer({
-    storage: custom,
-    fileFilter: imageFilter
-});
+// export const uploadCustom = multer({
+//     storage: custom,
+//     fileFilter: imageFilter
+// });
