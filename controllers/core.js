@@ -27,6 +27,10 @@ class CoreController {
             const nasabah = await NasabahService.getNasabahCustom(id);
             const date = moment().add(12, 'h');
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
+            console.log("user : "+userGtw.v2);
+            console.log("ip : "+gateway);
+            console.log("tanggal : "+date.format('YYYYMMDD'));
+            console.log("jam : "+date.format('HHmmss'));
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
                 reqId: functionId.createCIFPerorangan,
@@ -114,6 +118,8 @@ class CoreController {
             }
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
+            console.log(response);
+            console.log(response.data);
             return resUtil.send(res);
         } catch (error) {
             if (error.response) {
