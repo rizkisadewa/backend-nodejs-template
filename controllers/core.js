@@ -149,7 +149,7 @@ class CoreController {
                 user
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const date = moment().add(12, 'h');
+            const date = moment();
             console.log(userGtw.v2+" + "+functionId.trx +" + " + gateway +" + " + date.format('YYYY-MM-DDHH:mm:ss'));
 
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.trx + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
