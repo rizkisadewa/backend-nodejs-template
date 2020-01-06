@@ -199,6 +199,8 @@ class CoreController {
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
+            console.log(response);
+            console.log(response.data);
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
