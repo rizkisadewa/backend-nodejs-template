@@ -52,7 +52,7 @@ class CoreController {
                     BLOODTYPE: "O",
                     TXTRF: "50,000,000.00",
                     USERID: nasabah.kd_operator,
-                    AOID: user.aoid,
+                    AOID: nasabah.kd_agen,
                     NPWP: "698930484444000",
                     TXCASH: nasabah.setoran_awal,
                     TYPEID: "1",
