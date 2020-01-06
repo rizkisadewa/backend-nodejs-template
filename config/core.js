@@ -1,13 +1,13 @@
 export const userGtw = {
   v1: 'GTW06',
-  v2: 'jmlgw',
-  v3: 'fosgw'
+  v2: 'fosgw',
+  v3: 'jmlgw'
 };
 export const gateway =  '172.31.251.245'; // ip prod. // '172.31.253.254'; // ip dev. in remark
 export const channel = {
   v1: '6',
-  v2: '34',
-  v3: '27'
+  v2: '27',
+  v3: '34'
 };
 
 // ip dev : 172.112.17.20
