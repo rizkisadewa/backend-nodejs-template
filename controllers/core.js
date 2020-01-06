@@ -51,7 +51,7 @@ class CoreController {
                     MARRIAGEID: 2,
                     BLOODTYPE: "O",
                     TXTRF: "50,000,000.00",
-                    USERID: user.username,
+                    USERID: nasabah.kd_operator,
                     AOID: user.aoid,
                     NPWP: "698930484444000",
                     TXCASH: nasabah.setoran_awal,

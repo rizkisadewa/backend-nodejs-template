@@ -3,7 +3,7 @@ export const userGtw = {
   v2: 'jmlgw',
   v3: 'fosgw'
 };
-export const gateway = '172.31.253.254'; // ip dev. in remark // '172.31.251.245'
+export const gateway = '172.31.253.254'; // ip dev. // '172.31.251.245'; // ip prod. in remark
 export const channel = {
   v1: '6',
   v2: '34',
@@ -11,6 +11,7 @@ export const channel = {
 };
 
 // ip dev : 172.112.17.20
+// ip prod : 172.112.17.102
 export const baseUrl = {
   v1: {
     set: 'http://172.112.17.20:7070/Gateway/gateway/services/setDataExt',
