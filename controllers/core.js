@@ -25,7 +25,7 @@ class CoreController {
                 user
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const date = moment().add(12, 'h');
+            const date = moment();
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             console.log("user : "+userGtw.v2);
             console.log("ip : "+gateway);
@@ -329,7 +329,7 @@ class CoreController {
               tujuan.TBRCAPITAL = 1;
             }
 
-            const date = moment().add(12, 'h');
+            const date = moment();
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.updateCIFPerorangan + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
@@ -443,7 +443,7 @@ class CoreController {
                 user
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
-            const date = moment().add(12, 'h');
+            const date = moment();
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.createTabunganNew + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
