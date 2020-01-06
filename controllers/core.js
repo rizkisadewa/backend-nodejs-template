@@ -150,6 +150,8 @@ class CoreController {
             } = req;
             const nasabah = await NasabahService.getNasabahCustom(id);
             const date = moment().add(12, 'h');
+            console.log(userGtw.v2+" + "+functionId.trx +" + " + gateway +" + " + date.format('YYYY-MM-DDHH:mm:ss'));
+
             const auth = crypto.createHmac('sha1', userGtw.v2).update(functionId.trx + gateway + date.format('YYYY-MM-DDHH:mm:ss')).digest('hex');
             const response = await axios.post(coreUrl.v2, {
                 authKey: auth,
