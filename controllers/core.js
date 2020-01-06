@@ -198,9 +198,8 @@ class CoreController {
             });
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
-            return resUtil.send(res);
-            return resUtil.send(response);
-            return resUtil.send(response.data);
+            return resUtil.send(res+"/"+response);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
