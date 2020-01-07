@@ -203,7 +203,7 @@ class CoreController {
             console.log(response.data);
 
             resUtil.setSuccess(response.status, response.statusText, response.data, response);
-            return resUtil.send(res+"/"+response);
+            return resUtil.send(res);
 
         } catch (error) {
             if (error.response) {
@@ -236,6 +236,10 @@ class CoreController {
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
+
+            // Print log
+            console.log(body);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -269,6 +273,10 @@ class CoreController {
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
+
+            // print log
+            console.log(response);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -415,6 +423,9 @@ class CoreController {
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
 
+            console.log(response);
+            console.log(response.data);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -470,6 +481,11 @@ class CoreController {
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
+
+            // Print log
+            console.log(response);
+            console.log(response.data);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -510,6 +526,10 @@ class CoreController {
 
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
+
+            // Print log
+            console.log(response);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -557,6 +577,10 @@ class CoreController {
                     resUtil.setSuccess(400, "Error", e);
                     return resUtil.send(res);
                 });
+
+            // Print log
+            console.log(url);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -603,6 +627,10 @@ class CoreController {
                     resUtil.setSuccess(400, "Error", e);
                     return resUtil.send(res);
                 });
+
+            // Print log
+            console.log(url);
+
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
