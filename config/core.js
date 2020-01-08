@@ -39,7 +39,8 @@ export const trxAcc = '19' + accNumber + '360';
 
 
 // Proswitcing
+// ip developement : http://172.31.201.5
+// ip production : http://172.133.17.212
 export const proswitching = {
-  production_ip : "http://172.133.17.212",
-  development_ip : "http://172.31.201.5"
+  ip : "http://172.31.201.5"
 }

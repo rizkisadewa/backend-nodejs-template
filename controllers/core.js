@@ -557,8 +557,7 @@ class CoreController {
         try {
             const nasabah = await NasabahService.getNasabah(id);
             const body = encodeURIComponent(`BRANCHID=${nasabah.kd_cab};CIFID=${nasabah.nocif};ACCNBR=${nasabah.newrek};FULLNM=${nasabah.nama_nsb};SURENM=${nasabah.nama_singkat};SVGTYPE=021;CARDNO=${nasabah.no_kartu}`);
-            const url = `${proswitching.development_ip}:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip dev
-            // const url = `${proswitching.production_ip}:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip production
+            const url = `${proswitching.ip}:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.cardActivate}&input=${body}`; // ip dev
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
@@ -607,8 +606,7 @@ class CoreController {
         } = req.query;
         try {
             const body = encodeURIComponent(`CARDNO=${cardno}`);
-            const url = `${proswitching.development_ip}:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip development
-            // const url = `${proswitching.production_ip}:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip production
+            const url = `${proswitching.ip}:49006?channelid=${channel.v1}&userGtw=${userGtw.v1}&id=${functionId.inquiryCard}&input=${body}`; // ip development
 
             curl.setHeaders([
                     'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
