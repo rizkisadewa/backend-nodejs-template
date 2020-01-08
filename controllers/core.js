@@ -474,18 +474,21 @@ class CoreController {
                 }
             });
 
+            // Print log
+            console.log(response);
+            console.log(response.data);
+
             if (response.data.statusId === 1) {
                 await NasabahService.updateNasabah(id, {
                     newrek: response.data.result.ACCNBR
                 });
+
+                resUtil.setSuccess(response.status, response.statusText, response.data);
+                return resUtil.send(res);
+            } else {
+              resUtil.setError(response.status, response.data);
+              return resUtil.send(res);
             }
-
-            resUtil.setSuccess(response.status, response.statusText, response.data);
-            return resUtil.send(res);
-
-            // Print log
-            console.log(response);
-            console.log(response.data);
 
         } catch (error) {
             if (error.response) {
