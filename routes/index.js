@@ -12,6 +12,7 @@ import DisdukLogController from '../controllers/disduk-log';
 import SMSController from '../controllers/sms'
 import CaptchaController from '../controllers/captcha';
 import EmailController from '../controllers/email';
+import CoreDeveloperController from '../controllers/core-dev';
 
 export default (app) => {
     // API routes Auth
@@ -124,5 +125,12 @@ export default (app) => {
     //API send Email
     app.post('/api/send-email', EmailController.sendEmail);
     app.get('/api/email/notif-n', AuthController.verifyJwt, EmailController.notifN);
+
+    // ****************API FOR DEVELOPER***************
+    // API routes Auth for Developer
+    app.post('/api/developer/auth/sign-in', AuthController.validate('dev-sign-in'), AuthController.signIn);
+
+    // API routes Core Banking for Developer
+    app.post('/api/developer/core/trx', AuthController.verifyJwt, CoreDeveloperController.trx);
 
 };

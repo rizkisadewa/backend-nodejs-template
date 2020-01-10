@@ -73,6 +73,19 @@ class AuthController {
                     })
                 ]
             }
+
+            case 'dev-sign-in': {
+                return [
+                    body('username').not().isEmpty().withMessage('Username harus diisi'),
+                    body('username').isLength({
+                        min: 5
+                    }).withMessage('Username harus berisi 5 karakter'),
+                    body('password').not().isEmpty().withMessage('Password harus diisi'),
+                    body('password').isLength({
+                        min: 6
+                    }).withMessage('Password minimal berisi 6 karakter')
+                ]
+            }
         }
     }
 
