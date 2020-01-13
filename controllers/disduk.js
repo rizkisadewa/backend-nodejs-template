@@ -19,7 +19,8 @@ const resUtil = new ResponseUtil();
 class DisdukController {
     static async callNIK(req, res) {
         const {
-            nik
+            nik,
+            username
         } = req.params;
         const ip = requestIp.getClientIp(req);
         const clientIp = req.connection.remoteAddress;
@@ -33,11 +34,12 @@ class DisdukController {
 
             console.log("Server IP : "+ip);
             console.log("Client IP : "+clientIp);
+            console.log("Username : "+username);
             const response = await axios.post(nikUrl, {
                 nik: nik,
                 user_id: userId,
                 password: password,
-                IP_USER: clientIp
+                IP_USER: username
             }, {
                 headers: {
                     Authorization: `Bearer ${nikToken}`,
