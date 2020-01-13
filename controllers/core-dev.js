@@ -50,7 +50,7 @@ class CoreDeveloperController {
                       refAcc: "",
                       txAmt: total_amount,
                       txCode: "199",
-                      txMsg: "Keterangan Transaksi OB Debet",
+                      txMsg: req.body.debetTxMsg,
                       isFee: 0
                   },
                   {
@@ -59,7 +59,7 @@ class CoreDeveloperController {
                       refAcc: "",
                       txAmt: total_amount,
                       txCode: "299",
-                      txMsg: "Keterangan Transaksi OB Kredit",
+                      txMsg: req.body.creditTxMsg,
                       isFee: 0
                   }
               ]
