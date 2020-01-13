@@ -50,6 +50,7 @@ class DisdukController {
             resUtil.setSuccess(response.status, response.statusText, response.data);
             return resUtil.send(res);
             console.log(response.data);
+            console.log(response);
         } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
