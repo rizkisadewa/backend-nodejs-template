@@ -22,6 +22,7 @@ class DisdukController {
             nik,
             username
         } = req.params;
+
         const ip = requestIp.getClientIp(req);
         const clientIp = req.connection.remoteAddress;
 
