@@ -1,5 +1,5 @@
 {
-  "name": "kartu-maslahah-backend",
+  "name": "nodejs-template-backend",
   "version": "1.0.0",
   "description": "Backend with Nodejs",
   "main": "index.js",
@@ -28,7 +28,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "base64-img": "^1.0.4",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "curl-request": "^1.1.1",

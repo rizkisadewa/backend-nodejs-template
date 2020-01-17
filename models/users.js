@@ -166,12 +166,7 @@ export default (sequelize, DataTypes) => {
   };
   user.associate = function (models) {
     // associations can be defined here
-    user.belongsTo(models.cabang, {
-      foreignKey: 'kode_cabang',
-      targetKey: 'kode',
-      onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT'
-    });
+    
     user.belongsTo(models.user_type, {
       foreignKey: 'kode_user_type',
       targetKey: 'kode',

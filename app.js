@@ -9,7 +9,7 @@ import routes from './routes';
 import database from './models';
 
 const hostname = '127.0.0.1';
-const port = 3001;
+const port = 3002;
 const app = express(); // setup express application
 const server = http.createServer(app);
 const expressip = require('express-ip');
@@ -35,7 +35,7 @@ app.use(cors());
 routes(app);
 
 app.get('*', (req, res) => res.send({
-    message: 'Rest API Kartu Maslahah',
+    message: 'Rest API Template',
 }));
 
 server.listen(port, hostname, () => {
